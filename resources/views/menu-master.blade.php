@@ -17,18 +17,18 @@
               <div id="logo-container"></div>
               <!-- a -->
 
-            <form class="form-horizontal" name="employee_form" id="employee_form"  method="post">
+            <form class="form-horizontal" name="menu_master_form" id="menu_master_form"  method="post">
                 {{csrf_field()}}
 
 
                 <div class="col-md-6">
                    <div class="form-group row">
-                        <label for="empcode" class="col-sm-4 col-form-label">Module&nbsp;Name:</label>
+                        <label for="Module_name" class="col-sm-4 col-form-label">Module&nbsp;Name:</label>
                         <div class="col-sm-6">
-                          <select type="text" class="form-control" id="empcode" name="empcode" required>
+                          <select type="text" class="form-control" id="Module_name" name="Module_name" required>
                           <option disabled selected  value="0">Select One</option>
-                          @foreach ($module as $module)
-                          <option value="">{{ $module->Module_Name}}</option>
+                         @foreach ($module as $module)
+                          <option value="{{$module->Module_name}}">{{ $module->Module_name}}</option>
                         @endforeach
                       </select>
                     </div>
@@ -36,11 +36,12 @@
                 </div>
 
 
+
                 <div class="col-md-6">
                   <div class="form-group row">
-                    <label for="empname" class="col-sm-4 col-form-label">Menu&nbsp;Name:</label>
+                    <label for="mname" class="col-sm-4 col-form-label">Menu&nbsp;Name:</label>
                     <div class="col-sm-6">
-                     <input type="text" class="form-control" id="empname" name="empname"   placeholder="Enter a Menu Name"  required>
+                     <input type="text" class="form-control" id="mname" name="mname"   placeholder="Enter a Menu Name"  required>
                    </div>
                  </div>
                  </div>
@@ -49,13 +50,13 @@
 
                  <div class="col-md-6">
                   <div class="form-group row">
-                    <label for="companyname" class="col-sm-4 col-form-label">Parent&nbsp;Name:</label>
+                    <label for="pname" class="col-sm-4 col-form-label">Parent&nbsp;Name:</label>
                     <div class="col-sm-6">
-                      <select type="text" class="form-control" id="companyname" name="companyname" required>
+                      <select type="text" class="form-control" id="pname" name="pname" required>
                         <option disabled selected  value="0">Select One</option>
-                        @foreach ($menu_parent as $menu_parent)
-                        <option value="">{{ $menu_parent->Menu_Parent}}</option>
-                      @endforeach
+                         @foreach ($menu_parent as $menu_parent)
+                          <option value="{{$menu_parent->MenuMasterID}}">{{ $menu_parent->Menu_Name}}</option>
+                        @endforeach
                     </select>
                   </div>
                 </div>
@@ -64,13 +65,13 @@
 
               <div class="col-md-6">
                 <div class="form-group row">
-                  <label for="address" class="col-sm-4 col-form-label">Menu&nbsp;Lavel::</label>
+                  <label for="mlevel" class="col-sm-4 col-form-label">Menu&nbsp;Level::</label>
                   <div class="col-sm-6">
-                    <select type="text" class="form-control" id="address" name="address"   placeholder="Enter a Address"  required>
+                    <select type="text" class="form-control" id="mlevel" name="mlevel"   placeholder="Enter Level"  required>
                       <option disabled selected  value="0">Select One</option>
                       @foreach ($menu_level as $menu_level)
-                      <option value="">{{ $menu_level->Menu_Level}}</option>
-                    @endforeach
+                          <option value="{{$menu_level->id}}">{{$menu_level->id}}</option>
+                        @endforeach
                   </select>
                 </div>
               </div>
@@ -79,13 +80,13 @@
 
             <div class="col-md-6">
               <div class="form-group row">
-                <label for="email" class="col-sm-4 col-form-label">Menu&nbsp;Sequence:</label>
+                <label for="msequence" class="col-sm-4 col-form-label">Menu&nbsp;Sequence:</label>
                 <div class="col-sm-6">
-                  <select type="text" class="form-control" id="email" name="email" required>
+                  <select type="text" class="form-control" id="msequence" name="msequence" required>
                     <option disabled selected  value="0">Select One</option>
-                    @foreach ($menu_sequence as $menu_sequence)
-                    <option value="">{{ $menu_sequence->Menu_Sequence}}</option>
-                  @endforeach
+                     @foreach ($menu_sequence as $menu_sequence)
+                          <option value="{{$menu_sequence->id}}">{{$menu_sequence->id}}</option>
+                        @endforeach
                 </select>
               </div>
             </div>
@@ -95,10 +96,10 @@
             <div class="form-group row">
               <label for="dob" class="col-sm-4 col-form-label">Menu&nbsp;Type:</label>
               <div class="col-sm-6">
-                <select type="Date" class="form-control" id="dob" name="dob"  placeholder="Enter a DOB"  required>
-                  @foreach ($menu_type as $menu_type)
-                  <option value="">{{ $menu_type->Menu_Type}}</option>
-                @endforeach
+                <select type="Date" class="form-control" id="mtype" name="mtype"  placeholder="Select"  required>
+                 <option value="URL">URL</option>
+<option value="POPUP">POPUP</option>
+
               </select>
             </div>
           </div>
@@ -107,9 +108,9 @@
 
         <div class="col-md-6">
           <div class="form-group row">
-            <label for="mobile" class="col-sm-4 col-form-label">Menu&nbsp;Action::</label>
+            <label for="maction" class="col-sm-4 col-form-label">Menu&nbsp;Action::</label>
             <div class="col-sm-6">
-              <input type="text" class="form-control" id="mobile" name="mobile"   placeholder="Enter a Bank Name" minlength="10" maxlength="10" onkeypress="return fnAllowNumeric(event)" required>
+              <input type="text" class="form-control" id="maction" name="maction"   placeholder="Enter a Menu Action "   required>
                </div>
              </div>
            </div>
@@ -117,18 +118,16 @@
 
            <div class="col-md-6">
             <div class="form-group row">
-              <label for="department" class="col-sm-4 col-form-label">Menu&nbsp;Display::</label>
-              <div class="col-sm-6">
-                <select type="text" class="form-control" id="department" name="department" required>
-                  <option disabled selected  value="">Select One</option>
-                </select>
-              </div>
+              <label for="mdisplay" class="col-sm-4 col-form-label">Menu&nbsp;Display::</label>
+               <div class="col-sm-6">
+                     <input type="text" class="form-control" id="mdisplay" name="mdisplay"   placeholder="Enter a Menu Display"  required>
+                   </div>
             </div>
           </div>
 
 
           <center>
-            <button type="submit" id="sub" class="btn btn-primary">Submit</button>
+            <button type="button" id="submit" class="btn btn-primary">Submit</button>
             <button type="reset" value="Reset">Reset</button>
          </center>
        </form>
@@ -137,5 +136,45 @@
   </div>
 </div>
 </div>
+<script type="text/javascript">
+  $('#submit').click(function(){
+     var formdata = new FormData($("#menu_master_form")[0]);
+    $.ajax({  
+           type: "POST",  
+           url: "{{URL::to('menu-master-insert')}}",
+            //data : $('#project_m').serialize(),
+            data : formdata,
+           processData: false,
+             contentType : false,
+             success: function(msgdata){
+              if(msgdata[0].id >0){
+                  alert(msgdata[0].msg);
+                  location.reload();
+              }else{
+                  alert('failure');
+                 location.reload();
+              }
+             
+        //            var response = JSON.parse(msg);
+        //             if(response.status == "success"){
+
+        //                $("#success_response").html(response.msg);
+        //                alert(response.msg);
+        //   window.location = response.redirectUrl;
+        // }
+        // else if(response.messege == "error"){
+        //   window.location = response.redirectUrl;
+        // }
+        // else{
+        //   $.each(response , function(key , value){
+        //     $("#err_" + key).text(value);
+        //   });
+        // }
+           //console.log(msg);
+              //location.reload();
+            }
+        }); 
+  });
+</script>
 
  @endsection

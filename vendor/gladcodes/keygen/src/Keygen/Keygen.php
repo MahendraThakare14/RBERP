@@ -11,6 +11,12 @@
 
 namespace Keygen;
 
+/**
+ * @method static Generator token(int $length)
+ * @method static Generator numeric(int $length)
+ * @method static Generator alphanum(int $length)
+ * @method static Generator bytes(int $length)
+ */
 class Keygen extends AbstractGenerator
 {
 	/**

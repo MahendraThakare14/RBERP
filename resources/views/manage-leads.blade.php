@@ -42,7 +42,7 @@
              <div class="form-group row">
                   <label for="empcode" class="col-sm-4 col-form-label">From Date:</label>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control datepicker_id"" id="txtfdate" name="txtfdate" placeholder="From Date">
+                    <input type="text" class="form-control datepicker_id" id="txtfdate" name="txtfdate" placeholder="From Date">
                   </div>
                 </div>
               </div>
@@ -109,8 +109,9 @@
 
 
 
-            <center>
+            
                   </form>
+                  <center>
                <div class="col-sm-12">
                 
                 <a class="btn btn-primary" id="btnshowlead">show lead</a>
@@ -144,6 +145,63 @@
 
   </div>
 </div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    $(".search_Status").autocomplete({
+      source: function(request, response) {
+        
+        $.ajax({
+          url: "{{ route('searchajax-status') }}",
+          dataType: "json",
+          data: {
+            term : request.term
+          },
+          success: function(data) {
+            response(data);            
+          }
+        });
+      },
+      change: function (event, ui) {
+        if (ui.item == null || ui.item == undefined || ui.item.value=='No Result Found') {
+          $(".search_Status").val("");
+          $(".search_Status").attr("disabled", false);
+         
+        }else{         
+         $(".Q6").show();
+       }
+     }
+   });
+  });
+
+$("#btnshowlead").click(function(){ 
+var fdate=$('#txtfdate').val();
+var tdate=$('#txttdate').val();
+  $.ajax({  
+         type: "GET",  
+         url:'manage-leads-get/'+fdate+'/'+tdate,
+         success: function(leaddata)
+         {   
+
+           var data = JSON.parse(leaddata);
+           var str ="<table id='example'class='table table-bordered table-striped'><thead><tr><th>Lead Id</th><th>Lead Create Date</th><th>Customer Name</th><th>Mobile No</th><th>Email Id</th><th>City</th><th>Product Name</th><th>Emp Name</th><th>Company Name</th><th>followup Date</th><th>Last Update Date</th><th>Status</th><th>Source Name</th><th>Campaign Name</th><th>Vertical Name</th><th>Bank Name</th><th>Remark</th><th>Credit Score</th><th>Created By</th><th>Broker Name</th><th>FBA Employee Name</th></tr></thead><tbody>";
+       for (var i = 0; i < data.length; i++) 
+       {
+
+         str = str + "<tr><td><a href='lead-status-update-flow/"+data[i].Lead_id+"'>"+data[i].Lead_id+"</a></td><td>"+data[i].Created_Datetime+"</td><td>"+data[i].name+"</td><td>"+data[i].mobile+"</td><td>"+data[i].email+"</td><td>"+data[i].City_Name+"</td><td>"+data[i].Product_Name+"</td><td>"+data[i].Emp_Name+"</td><td>"+data[i].CompanyName+"</td><td>"+data[i].ndate+"</td><td>"+data[i].sysdate+"</td><td>"+data[i].Lead_Status+"</td><td>"+data[i].source_name+"</td><td>"+data[i].campaignName+"</td><td>"+data[i].Vertical_Name+"</td><td>"+data[i].Bank_Name+"</td><td>"+data[i].Remark+"</td><td>"+data[i].Credit_Score+"</td><td>"+data[i].Created_By+"</td><td>"+data[i].Broker_Name+"</td><td></td></tr>";
+       }
+         str = str + "</tbody></table>";
+           $('#divhistory').html(str);
+           $('#example').DataTable();
+         }  
+      });
+ });
+</script>
+
+
 <script type="text/javascript">
   $(document).ready(function() {
     $('#example').DataTable();
@@ -263,56 +321,5 @@ $(document).ready(function(){
    });
 
 </script>
-<script type="text/javascript">
-$(document).ready(function(){
-    
-    $(".search_Status").autocomplete({
-      source: function(request, response) {
-        
-        $.ajax({
-          url: "{{ route('searchajax-status') }}",
-          dataType: "json",
-          data: {
-            term : request.term
-          },
-          success: function(data) {
-            response(data);            
-          }
-        });
-      },
-      change: function (event, ui) {
-        if (ui.item == null || ui.item == undefined || ui.item.value=='No Result Found') {
-          $(".search_Status").val("");
-          $(".search_Status").attr("disabled", false);
-         
-        }else{         
-         $(".Q6").show();
-       }
-     }
-   });
-  });
 
-$("#btnshowlead").click(function(){ 
-var fdate=$('#txtfdate').val();
-var tdate=$('#txttdate').val();
-  $.ajax({  
-         type: "GET",  
-         url:'manage-leads-get/'+fdate+'/'+tdate,
-         success: function(leaddata)
-         {   
-
-           var data = JSON.parse(leaddata);
-           var str ="<table id='example'class='table table-bordered table-striped'><thead><tr><th>Lead Id</th><th>Lead Create Date</th><th>Customer Name</th><th>Mobile No</th><th>Email Id</th><th>City</th><th>Product Name</th><th>Emp Name</th><th>Company Name</th><th>followup Date</th><th>Last Update Date</th><th>Status</th><th>Source Name</th><th>Campaign Name</th><th>Vertical Name</th><th>Bank Name</th><th>Remark</th><th>Credit Score</th><th>Created By</th><th>Broker Name</th><th>FBA Employee Name</th></tr></thead><tbody>";
-       for (var i = 0; i < data.length; i++) 
-       {
-
-         str = str + "<tr><td><a href='lead-status-update-flow/"+data[i].Lead_id+"'>"+data[i].Lead_id+"</a></td><td>"+data[i].Created_Datetime+"</td><td>"+data[i].name+"</td><td>"+data[i].mobile+"</td><td>"+data[i].email+"</td><td>"+data[i].City_Name+"</td><td>"+data[i].Product_Name+"</td><td>"+data[i].Emp_Name+"</td><td>"+data[i].CompanyName+"</td><td>"+data[i].ndate+"</td><td>"+data[i].sysdate+"</td><td>"+data[i].Lead_Status+"</td><td>"+data[i].source_name+"</td><td>"+data[i].campaignName+"</td><td>"+data[i].Vertical_Name+"</td><td>"+data[i].Bank_Name+"</td><td>"+data[i].Remark+"</td><td>"+data[i].Credit_Score+"</td><td>"+data[i].Created_By+"</td><td>"+data[i].Broker_Name+"</td><td></td></tr>";
-       }
-         str = str + "</tbody></table>";
-           $('#divhistory').html(str);
-           $('#example').DataTable();
-         }  
-      });
- });
-</script>
 @endsection 

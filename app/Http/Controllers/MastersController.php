@@ -10,6 +10,10 @@ use Redirect;
 use Session;
 use URL;
 use Mail;
+use App\CustomValidation;
+use Excel;
+
+
 class MastersController extends Controller
 {
 
@@ -18,18 +22,57 @@ class MastersController extends Controller
 	public function aspxdata()
 
 	{
-		$shows=DB::select("call usp_get_company_master()");
-		$users=DB::select("call usp_get_Reporting_master()");
-		$selects=DB::select("call usp_get_designation_master()");
-		$insert=DB::select("call usp_get_department_master()");
-		return view ('employee-master',['shows'=>$shows,'users'=>$users,'selects'=>$selects,'insert'=>$insert]);
-	}
 
-	public function employ_master(Request $req)
-	{
-		DB::statement("call Insert_empolyee_master(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",array($req->empname,$req->empcode,$req->companyname,$req->email,$req->address,$req->DOB,$req->mobile,$req->department,$req->reporting_authority,$req->date_of_joining,$req->designation,$req->band,$req->Is_Active,$req->ctc,$req->variable));
-		return Redirect('employee-master');
+		$users=DB::select("exec usp_get_Reporting_master");
+		$selects=DB::select("exec usp_get_designation_master");
+		$insert=DB::select("exec usp_get_department_master");
+		 return view ('employee-master',['users'=>$users,'selects'=>$selects,'insert'=>$insert]);
+		//return view('employee-master');
 	}
+	 public function employee_master_submit(Request $request,CustomValidation $validator)
+    {
+ $data = array();
+      $error = array();
+      $parameters['REQUEST'] = $request->all();
+      $parameters['VALIDATIONS'] = array(
+    'REQUIRED_VALIDATIONS'=>array('empname'=>'Please Enter Employee Name','empcode'=>'Please Enter Employee Code','companyname'=>'Please Enter Company Name','email'=>'Please Enter Email','address'=>'Please Enter Address','DOB'=>'Please Enter DOB','mobile'=>'Please Enter Mobile','reporting_authority'=>'Please Select Reporting Manager','reporting_authority'=>'Please Select Reporting Manager','date_of_joining'=>'Please Select DOJ','designation_id'=>'Please Select Designation','band'=>'Please Select Band','department'=>'Please Select department'));
+    extract($validator->validate_required($parameters));
+    if(count($error) === 0){
+
+
+   $query=DB::select(DB::raw("exec USP_InsEmployee_Master :Emp_Name,:Emp_Code,:Company_Id,:Email_Id,:Address,:DOB,:Mobile,:Reporting_emp,:DOJ,:Designation_Id,:Band,:Department_Id,:CTC,:Variable"),[
+    ':Emp_Name' => $request->empname,
+    ':Emp_Code' => $request->empcode,
+     ':Company_Id' => $request->companyname,
+      ':Email_Id' => $request->email,
+       ':Address' => $request->address,
+       ':DOB' => $request->DOB,
+         ':Mobile' => $request->mobile,
+          ':Reporting_emp' => $request->reporting_authority,
+          ':DOJ' => $request->date_of_joining,
+          ':Designation_Id' => $request->designation_id,
+      ':Band' => $request->band,
+      ':Department_Id' => $request->department,
+        ':CTC' => $request->ctc,
+         ':Variable' => $request->variable      
+]);
+    $success_msg = array('status'=>'success',"messege"=>"Data inserted sucessfully",'redirectUrl'=>'/relationship');
+    echo json_encode($success_msg);
+    }else{
+     echo json_encode($error);
+
+      // print_r($request->all()); exit();
+
+    	
+    	//print_r($query); exit();
+// return $query;
+}
+}
+	// public function employ_master(Request $req)
+	// {
+	// 	DB::statement("call Insert_empolyee_master(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",array($req->empname,$req->empcode,$req->companyname,$req->email,$req->address,$req->DOB,$req->mobile,$req->department,$req->reporting_authority,$req->date_of_joining,$req->designation,$req->band,$req->Is_Active,$req->ctc,$req->variable));
+	// 	return Redirect('employee-master');
+	// }
 //**bank-master*-*-----------*********** 
     public function bankmaster()
 	{
@@ -125,7 +168,7 @@ class MastersController extends Controller
 //**employe-list*******************-***-
 	public function employelistmaster()
 	{
-		$smsdata=DB::select("call usp_get_emplistmaster()");
+		$smsdata=DB::select("exec USp_DispEmployee_List");
 		return view('employe-list',['smsdata'=>$smsdata])->with('no', 1);
 	}
 //***-*-*-*-*-*-*-*-*-*-*-*edit-employe-list**
@@ -136,12 +179,12 @@ class MastersController extends Controller
 	public function table_edit($id)
 	{
 		//print_r($id); 
-		$shows=DB::select("call usp_get_company_master()");
-		$updates=DB::select("call usp_get_Reporting_master()");
-        $masters=DB::select("call usp_get_designation_master()");
-        $insert=DB::select("call usp_get_department_master()");
-        $band=DB::select("call usp_get_employee_masterband()");
-        $user= DB::select('call usp_show_empolyee_list(?)',array($id))[0];
+		// $shows=DB::select("call usp_get_company_master()");
+		$updates=DB::select("exec usp_get_Reporting_master");
+        $masters=DB::select("exec usp_get_designation_master");
+        $insert=DB::select("exec usp_get_department_master");
+        $band=DB::select("exec usp_get_employee_masterband");
+        $user= DB::select('exec usp_show_empolyee_list(?)',array($id))[0];
        // print_r($user); exit();
         return view('edit-employe-list',['shows'=>$shows,'user'=>$user,'updates'=>$updates,'masters'=>$masters,'insert'=>$insert,'band'=>$band]);
     }

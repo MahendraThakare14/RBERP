@@ -221,6 +221,30 @@ class LeadsController extends Controller
         $assign=DB::select('call usp_get_assign_tele_assignemp()');
         return view('lead-assign-telecaller',['status'=>$status,'source'=>$source,'city'=>$city,'assign'=>$assign]);
     }
+
+
+    public function managefbadata()
+    {
+        return view('manage-fba-data');
+    }
+
+
+     public function managefba($fdate,$tdate)
+    {
+         
+        $id=Session::get('Emp_Code');
+        $leaddata=DB::select("call Usp_get_fba_data('$fdate','$tdate','RB40000059')");          
+        return json_encode($leaddata);
+          
+          
+    }
+
+
+    public function editfbadata($id)
+    {
+   $user=DB::select("call usp_show_fba_data(?)",array($id))[0];
+  return view('edit-fba-data',['user'=>$user]);
+    }
     
 
 }

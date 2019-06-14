@@ -11,14 +11,9 @@
 |
 */
 
-
-
-
 Route::get('/','LoginController@checklogin');
 Route::post('login','LoginController@login');
 Route::get('logout','LoginController@logout');
-
-
 
 Route::group(['middleware' => ['CheckMidd']], function (){
 Route::get('dashboard','DashboardController@dashboard');
@@ -115,6 +110,7 @@ Route::get('user-rights/{id}', 'UsersController@search');
 
 Route::get('edit-menu','UsersController@editmenu');
 Route::get('menu-master','UsersController@menumaster');
+Route::post('menu-master-insert','UsersController@menu_master_insert');
 
 Route::get('group-rights','UsersController@grouprights');
 Route::get('monthly-target','UsersController@monthlytarget');
@@ -159,6 +155,10 @@ Route::get('push-sms-entry','LeadsController@pushsmsentry');
 Route::get('lead-status-update-flow/{id}','LeadsController@leadstatusupdateflow');
 Route::get('lead-assign-telecaller','LeadsController@leadassigntelecaller');
 
+Route::get('manage-fba-data','LeadsController@managefbadata');
+Route::get('manage-fba-get/{fdate}/{tdate}','LeadsController@managefba');
+Route::get('edit-fba-data/{id}','LeadsController@editfbadata');
+
 
 
 
@@ -192,6 +192,7 @@ Route::get('pas-details','pas\PasController@pms_details');
 Route::post('asp-insert','pas\PasController@pas_insert');
 Route::get('pas-registrar','pas\PasController@pas_registrar'); 
 Route::get('pas-data','pas\PasController@pas_data'); 
+Route::post('employee-master-insert','MastersController@employee_master_insert'); 
 
 
 

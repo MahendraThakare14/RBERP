@@ -52,8 +52,10 @@
                         <label for="u_companyname" class="col-sm-4 col-form-label">Company Name:</label>
                         <div class="col-sm-6">
                           <select type="text" class="form-control" id="u_companyname" name="u_companyname"   placeholder="Enter a Company Name" value="">
-                      @foreach ($shows as $show)
-          <option value="{{ $show->Company_Id}}">{{ $show->Company_Name}}</option>
+                   
+             <option value="1000">RupeeBoss</option>
+                      <option value="1001">PolicyBoss</option>
+                   
         @endforeach
          </select>
                         </div>

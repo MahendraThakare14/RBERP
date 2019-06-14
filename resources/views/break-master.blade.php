@@ -42,7 +42,7 @@
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
     <!-- Table -->
       <div class="box box-default">
@@ -80,13 +80,10 @@
     </div>
   </div>
 
-
-
-  
-<script>
-$(document).ready(function() {
-    $('#example').DataTable();
-} );
-</script>
+  <script>
+  $(document).ready(function() {
+  $('#example').DataTable();
+  } );
+  </script>
      
 @endsection

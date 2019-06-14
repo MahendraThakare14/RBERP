@@ -33,8 +33,8 @@
            @foreach($smsdata as $val)
         <tr>
               <td>{{ $no++ }}</td>
-              <td>{{$val->Emp_Name}}</td>
-              <td>{{$val->Emp_Code}}</td>
+              <td>{{$val->emp_name}}</td>
+              <td>{{$val->emp_code}}</td>
               <td>{{$val->Company_Id}}</td>
               <td>{{$val->Email_Id}}</td>
               <td>{{$val->Department_Name}}</td>

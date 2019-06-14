@@ -50,13 +50,44 @@ class UsersController extends Controller
 
 	public function menumaster()
 	{
-		$module=DB::select("call usp_get_Module_menu_master");
-		$menu_level=DB::select("call usp_get_level_menu_master()");
-		$menu_sequence=DB::select("call usp_get_sequence_menu_master()");
-		$menu_parent=DB::select("call usp_get_Parent_menu_master()");
-		$menu_type=DB::select("call usp_get_Type_menu_master()");
-		return view('menu-master',['module'=>$module,'menu_sequence'=>$menu_sequence,'menu_parent'=>$menu_parent,'menu_level'=>$menu_level,'menu_type'=>$menu_type]);
-	}
+		 $module=DB::select("exec usp_get_Module_menu_master");
+		 // $menu_parent=DB::select("exec usp_select_parent_menu_L");
+
+		   $menu_parent=DB::select(DB::raw("exec usp_select_parent_menu_L :Module"),[
+    ':Module' => "RBERP"]);
+		    $menu_sequence=DB::select("exec usp_get_sequence_menu_master");
+		     $menu_level=DB::select("exec usp_get_sequence_menu_master");
+
+		// print_r($module); exit();
+		// $menu_level=DB::select("call usp_get_level_menu_master()");
+		// $menu_sequence=DB::select("call usp_get_sequence_menu_master()");
+		// $menu_parent=DB::select("call usp_get_Parent_menu_master()");
+		// $menu_type=DB::select("call usp_get_Type_menu_master()");
+	// 	return view('menu-master',['module'=>$module,'menu_sequence'=>$menu_sequence,'menu_parent'=>$menu_parent,'menu_level'=>$menu_level,'menu_type'=>$menu_type]);
+
+		return view('menu-master',['module'=>$module,'menu_parent'=>$menu_parent,'menu_sequence'=>$menu_sequence,'menu_level'=>$menu_level]);
+}
+    
+
+    public function menu_master_insert(Request $request )
+    {
+
+ // print_r($request->all() ); exit();
+    	$query=DB::select(DB::raw("exec USP_Menu_Master_Insert_L :Module_name, :mname,:pname,:mlevel,:msequence,:mtype,:maction,:mdisplay"),[
+    ':Module_name' => $request->Module_name,
+    ':mname' => $request->mname,
+     ':pname' => $request->pname,
+      ':mlevel' => $request->mlevel,
+       ':msequence' => $request->msequence,
+        ':mtype' => $request->mtype,
+         ':maction' => $request->maction,
+          ':mdisplay' => $request->mdisplay,
+]);
+return $query;
+
+ // $success_msg = array('status'=>'success',"messege"=>"Data inserted sucessfully",'redirectUrl'=>'/menu-master');
+ //    echo json_encode($success_msg);
+    }
 
 	public function monthlytarget()
 	{

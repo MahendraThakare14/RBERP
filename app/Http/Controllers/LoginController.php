@@ -27,6 +27,8 @@ if(!$request->session()->exists('empcode')){
 
    public function login(Request $request){
 
+
+//print_r($request->all()); exit();
 			    $validator = Validator::make($request->all(), [
 			    'email' => 'required|max:100',
 			    'password' => 'required|max:100',
@@ -38,11 +40,18 @@ if(!$request->session()->exists('empcode')){
 			    ->withInput();
 			   }else{
           
- 
 
-                $query=DB::select('call sp_user_login(?,?)',array($request->email,$request->password));
-               
-                   
+
+           // $query=DB::select("exec USP_Select_login($request->email,$request->password)");
+
+           //      print_r($query); exit();
+
+                $query=DB::select(DB::raw("exec USP_Select_login :email, :password"),[
+    ':email' => $request->email,
+    ':password' => $request->password,
+]);
+             
+             //DB::select('exec my_stored_procedure(?,?,..)',array($Param1,$param2));
 
              if($query){
              	$val=$query[0];
@@ -53,8 +62,11 @@ if(!$request->session()->exists('empcode')){
 				$request->session()->put('groupid',$val->groupid);
 				$request->session()->put('Is_Active',$val->Is_Active);
 				$request->session()->put('email',$val->email);
+
 				                         
                return redirect()->intended('dashboard');
+				 //return redirect()->intended('employe-list');
+            
                }else{   Session::flash('msg', "Invalid email or password. Please Try again! ");
 
                          return Redirect::back();
@@ -72,6 +84,19 @@ if(!$request->session()->exists('empcode')){
   $req->session()->flush();
    return redirect('/');
 }
+
+
+// public function demo(){
+// 	 $data=DB::select("exec usp_load_city"); 
+// 	 print_r($data);
+	  // exit();
+
+	// print("india");
+
+	// echo "maharashtra";exit();
+	 // return view('demo',['data'=>$data]);
+	//return view('demo');
+// }
 
 
 
