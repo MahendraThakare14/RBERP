@@ -26,55 +26,108 @@ class MastersController extends Controller
 		$users=DB::select("exec usp_get_Reporting_master");
 		$selects=DB::select("exec usp_get_designation_master");
 		$insert=DB::select("exec usp_get_department_master");
-		 return view ('employee-master',['users'=>$users,'selects'=>$selects,'insert'=>$insert]);
+		return view ('employee-master',['users'=>$users,'selects'=>$selects,'insert'=>$insert]);
 		//return view('employee-master');
 	}
-	 public function employee_master_submit(Request $request,CustomValidation $validator)
-    {
- $data = array();
-      $error = array();
-      $parameters['REQUEST'] = $request->all();
-      $parameters['VALIDATIONS'] = array(
-    'REQUIRED_VALIDATIONS'=>array('empname'=>'Please Enter Employee Name','empcode'=>'Please Enter Employee Code','companyname'=>'Please Enter Company Name','email'=>'Please Enter Email','address'=>'Please Enter Address','DOB'=>'Please Enter DOB','mobile'=>'Please Enter Mobile','reporting_authority'=>'Please Select Reporting Manager','reporting_authority'=>'Please Select Reporting Manager','date_of_joining'=>'Please Select DOJ','designation_id'=>'Please Select Designation','band'=>'Please Select Band','department'=>'Please Select department'));
-    extract($validator->validate_required($parameters));
-    if(count($error) === 0){
+	public function employee_master_submit(Request $request,CustomValidation $validator)
+	{
+		 $userid=Session::get('userid');
+		  $ipaddress = $_SERVER['REMOTE_ADDR'];
+	// print_r($ipaddress);exit();
+		$data = array();
+		$error = array();
+		$parameters['REQUEST'] = $request->all();
+		$parameters['VALIDATIONS'] = array(
+			'REQUIRED_VALIDATIONS'=>array('empname'=>'Please Enter Employee Name','empcode'=>'Please Enter Employee Code','companyname'=>'Please Enter Company Name','email'=>'Please Enter Email','address'=>'Please Enter Address','DOB'=>'Please Enter DOB','mobile'=>'Please Enter Mobile','reporting_authority'=>'Please Select Reporting Manager','reporting_authority'=>'Please Select Reporting Manager','date_of_joining'=>'Please Select DOJ','designation_id'=>'Please Select Designation','band'=>'Please Select Band','department'=>'Please Select department'));
+		extract($validator->validate_required($parameters));
+		if(count($error) === 0){
 
 
-   $query=DB::select(DB::raw("exec USP_InsEmployee_Master :Emp_Name,:Emp_Code,:Company_Id,:Email_Id,:Address,:DOB,:Mobile,:Reporting_emp,:DOJ,:Designation_Id,:Band,:Department_Id,:CTC,:Variable"),[
-    ':Emp_Name' => $request->empname,
-    ':Emp_Code' => $request->empcode,
-     ':Company_Id' => $request->companyname,
-      ':Email_Id' => $request->email,
-       ':Address' => $request->address,
-       ':DOB' => $request->DOB,
-         ':Mobile' => $request->mobile,
-          ':Reporting_emp' => $request->reporting_authority,
-          ':DOJ' => $request->date_of_joining,
-          ':Designation_Id' => $request->designation_id,
-      ':Band' => $request->band,
-      ':Department_Id' => $request->department,
-        ':CTC' => $request->ctc,
-         ':Variable' => $request->variable      
-]);
-    $success_msg = array('status'=>'success',"messege"=>"Data inserted sucessfully",'redirectUrl'=>'/relationship');
-    echo json_encode($success_msg);
-    }else{
-     echo json_encode($error);
+			$query=DB::select(DB::raw("exec USP_InsEmployee_Master :Emp_Name,:Emp_Code,:Company_Id,:Email_Id,:Address,:DOB,:Mobile,:Reporting_emp,:DOJ,:Designation_Id,:Band,:Department_Id,:CTC,:Variable,:userid,:ip"),[
+				':Emp_Name' => $request->empname,
+				':Emp_Code' => $request->empcode,
+				':Company_Id' => $request->companyname,
+				':Email_Id' => $request->email,
+				':Address' => $request->address,
+				':DOB' => $request->DOB,
+				':Mobile' => $request->mobile,
+				':Reporting_emp' => $request->reporting_authority,
+				':DOJ' => $request->date_of_joining,
+				':Designation_Id' => $request->designation_id,
+				':Band' => $request->band,
+				':Department_Id' => $request->department,
+				':CTC' => $request->ctc,
+				':Variable' => $request->variable,
+				':userid' =>$userid, 
+				':ip' =>$ipaddress, 
+			]);
+			$success_msg = array('status'=>'success',"messege"=>"Data inserted sucessfully",'redirectUrl'=>'/relationship');
+			echo json_encode($success_msg);
+		}else{
+			echo json_encode($error);
 
       // print_r($request->all()); exit();
 
-    	
+
     	//print_r($query); exit();
 // return $query;
-}
-}
+		}
+	}
+
+
+	public function employee_master_update(Request $request,CustomValidation $validator)
+	{
+		$data = array();
+		$error = array();
+		$parameters['REQUEST'] = $request->all();
+		$parameters['VALIDATIONS'] = array(
+			'REQUIRED_VALIDATIONS'=>array('u_empname'=>'Please Enter Employee Name','u_companyname'=>'Please Enter Company Name','u_email'=>'Please Enter Email','u_address'=>'Please Enter Address','u_dob'=>'Please Enter DOB','u_mobile'=>'Please Enter Mobile'));
+		extract($validator->validate_required($parameters));
+		if(count($error) === 0){
+
+
+			$query=DB::select(DB::raw("exec USP_UpdEmployee_Master :emp_id,:Emp_Name,:Emp_Code,:Company_Id,:Email_Id,:Address,:DOB,:Mobile,:Reporting_emp,:DOJ,:Designation_Id,:Band,:Department_Id,:CTC,:Variable"),[
+				':emp_id' => $request->u_EmpId,
+				':Emp_Name' => $request->u_empname,
+				':Emp_Code' => $request->u_empcode,
+				':Company_Id' => $request->u_companyname,
+				':Email_Id' => $request->u_email,
+				':Address' => $request->u_address,
+				':DOB' => $request->u_dob,
+				':Mobile' => $request->u_mobile,
+				':Reporting_emp' => $request->u_reporting_authority,
+				':DOJ' => $request->u_date_of_joining,
+				':Designation_Id' => $request->u_Designation_id,
+				':Band' => $request->u_band,
+				':Department_Id' => $request->u_department,
+				':CTC' => $request->u_ctc,
+				':Variable' => $request->u_variable,
+			]);
+
+			$success_msg = array('status'=>'success',"messege"=>"Data Updated sucessfully",'redirectUrl'=>'/employee-list');
+			echo json_encode($success_msg);
+
+           print_r($request->all()); exit();
+		}
+
+		else{
+			echo json_encode($error);
+
+
+
+
+    	//print_r($query); exit();
+// return $query;
+		}
+	}
+
 	// public function employ_master(Request $req)
 	// {
 	// 	DB::statement("call Insert_empolyee_master(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",array($req->empname,$req->empcode,$req->companyname,$req->email,$req->address,$req->DOB,$req->mobile,$req->department,$req->reporting_authority,$req->date_of_joining,$req->designation,$req->band,$req->Is_Active,$req->ctc,$req->variable));
 	// 	return Redirect('employee-master');
 	// }
 //**bank-master*-*-----------*********** 
-    public function bankmaster()
+	public function bankmaster()
 	{
 		$smsdata=DB::select("call usp_get_bankmaster()");
 		return view('bank-master',['smsdata'=>$smsdata])->with('no', 1);	
@@ -82,41 +135,41 @@ class MastersController extends Controller
 	public function bank_master(Request $req)
 	{
 
-	    DB::statement("call Insert_Bank_Master(?,?,?,?,?)",array($req->Bank_Name,$req->Bank_Address,$req->Bank_Code,$req->Document1,$req->Document2));
-		 return Redirect('bank-master');
+		DB::statement("call Insert_Bank_Master(?,?,?,?,?)",array($req->Bank_Name,$req->Bank_Address,$req->Bank_Code,$req->Document1,$req->Document2));
+		return Redirect('bank-master');
 	}
 	public function bank_master_edit(Request $req)
 	{
 
-       $filename='';
-       $filename2='';
-	   $destinationPath = public_path('/images');     
-         
-       if($req->file_documant1){
-         $filename=$req->file_documant1;
-       }else{
-       	     $filename=$this->files_fn($req->file('Pop_Document1'));
-       }
-       if($req->file_documant2){
-         $filename2=$req->file_documant2;
-       }else{
-       	    $filename2 = $this->files_fn($req->file('Pop_Document2'));
-       }
-       DB::select("call Update_bank_Master(?,?,?,?,?,?)",array($req->Pop_Bank_Id,$req->Pop_Bank_Name,$req->Pop_Bank_Address,$req->Pop_Bank_Code,$filename,$filename2));
-		 return Redirect('bank-master');
+		$filename='';
+		$filename2='';
+		$destinationPath = public_path('/images');     
+
+		if($req->file_documant1){
+			$filename=$req->file_documant1;
+		}else{
+			$filename=$this->files_fn($req->file('Pop_Document1'));
+		}
+		if($req->file_documant2){
+			$filename2=$req->file_documant2;
+		}else{
+			$filename2 = $this->files_fn($req->file('Pop_Document2'));
+		}
+		DB::select("call Update_bank_Master(?,?,?,?,?,?)",array($req->Pop_Bank_Id,$req->Pop_Bank_Name,$req->Pop_Bank_Address,$req->Pop_Bank_Code,$filename,$filename2));
+		return Redirect('bank-master');
 	}
-    public function files_fn($file)
-    {
-    	  $filename='';
-          $destinationPath = public_path('/images');
-         if($file){
-       	    $filename=time().'.'.$file->getClientOriginalExtension();
-            $file->move($destinationPath, $filename);
-            return $filename;
-            }else{
-             return $filename;
-            }
-    }
+	public function files_fn($file)
+	{
+		$filename='';
+		$destinationPath = public_path('/images');
+		if($file){
+			$filename=time().'.'.$file->getClientOriginalExtension();
+			$file->move($destinationPath, $filename);
+			return $filename;
+		}else{
+			return $filename;
+		}
+	}
 
      //**break-master**
 	public function breakmaster()
@@ -127,7 +180,7 @@ class MastersController extends Controller
 	}
 	public function break_master(Request $req)
 	{
-		 DB::statement("call Insert_break_timemaster(?,?,?)",array($req->Break_Type,$req->Time,$req->Is_Active));
+		DB::statement("call Insert_break_timemaster(?,?,?)",array($req->Break_Type,$req->Time,$req->Is_Active));
 		return Redirect('break-master');
 	}
      //**state-master**
@@ -156,7 +209,7 @@ class MastersController extends Controller
 //**designation-master****-------************
 	public function designationmaster()
 	{
-	   	$smsdata=DB::select("call usp_get_designation_master()");
+		$smsdata=DB::select("call usp_get_designation_master()");
 		return view('designation-master',['smsdata'=>$smsdata])->with('no', 1);
 	}
 	public function designation_master(Request $req)
@@ -178,25 +231,37 @@ class MastersController extends Controller
 	}
 	public function table_edit($id)
 	{
-		//print_r($id); 
+		//print_r($id); exit();
 		// $shows=DB::select("call usp_get_company_master()");
 		$updates=DB::select("exec usp_get_Reporting_master");
-        $masters=DB::select("exec usp_get_designation_master");
-        $insert=DB::select("exec usp_get_department_master");
-        $band=DB::select("exec usp_get_employee_masterband");
-        $user= DB::select('exec usp_show_empolyee_list(?)',array($id))[0];
+		$masters=DB::select("exec usp_get_designation_master");
+		$insert=DB::select("exec usp_get_department_master");
+
+
+   // $user=DB::select(DB::raw("exec usp_show_empolyee_list :id"),[':id' => $id->id]);
+ // $user=DB::select(DB::raw("exec usp_show_empolyee_list :id"),[':id' => $id->id,]);
+
+
+		$user=DB::select(DB::raw("exec usp_show_empolyee_list :id"),[
+			':id' => $id,
+		]);
+
+        // print_r($user); exit();
+
+
+       // $user= DB::select('exec usp_show_empolyee_list(?)',array($id))[0];
        // print_r($user); exit();
-        return view('edit-employe-list',['shows'=>$shows,'user'=>$user,'updates'=>$updates,'masters'=>$masters,'insert'=>$insert,'band'=>$band]);
-    }
-    public function employe_master_editlist(Request $req)
+		return view('edit-employe-list',['user'=>$user,'updates'=>$updates,'masters'=>$masters,'insert'=>$insert]);
+	}
+	public function employe_master_editlist(Request $req)
 	{
-		 DB::select('call Update_employee_Master(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',array($req->u_EmpId,$req->u_empname,$req->u_empcode,$req->u_companyname,$req->u_email,$req->u_address,$req->u_dob,$req->u_mobile,$req->u_department,$req->u_reporting_authority,$req->u_date_of_joining,$req->u_designation,$req->u_band,$req->u_Is_Active,$req->u_ctc,$req->u_variable));
-		 return Redirect('employee-list');
+		DB::select('call Update_employee_Master(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',array($req->u_EmpId,$req->u_empname,$req->u_empcode,$req->u_companyname,$req->u_email,$req->u_address,$req->u_dob,$req->u_mobile,$req->u_department,$req->u_reporting_authority,$req->u_date_of_joining,$req->u_designation,$req->u_band,$req->u_Is_Active,$req->u_ctc,$req->u_variable));
+		return Redirect('employee-list');
 	}
 //**-*-*-*-*-*-*-*-*-*lead status master
-    public function leadstatusmaster()
-    {
-    	$users=DB::select("call usp_get_leadstatus_master()");
+	public function leadstatusmaster()
+	{
+		$users=DB::select("call usp_get_leadstatus_master()");
 		return view('leadstatus-master',['users'=>$users]);
 	}
 	public function leadstatus_master(Request $req)
@@ -224,7 +289,7 @@ class MastersController extends Controller
 	{
 	//print_r($req->all());exit();
 		DB::statement("call Insert_profession_master(?,?)",array($req->Profession_Name,$req->Is_Active));
-	   	return Redirect('profession-master');
+		return Redirect('profession-master');
 	}
 //***-*-**--*-*-*-*-*-*-*-Role master
 	public function rolemaster()
@@ -242,24 +307,24 @@ class MastersController extends Controller
 	public function associate_master(Request $req)
 	{
 		//print_r($req->all());exit();	
-		   DB::statement("call Insert_associate_master (?,?,?,?,?,?,?,?,?)",array($req->Broker_id,$req->Broker_Name,$req->Contact_No,$req->PanNo,$req->email,$req->Emp_Code,$req->city_Id,$req->remark,$req->Is_Active));
-			return Redirect('associate-master');
+		DB::statement("call Insert_associate_master (?,?,?,?,?,?,?,?,?)",array($req->Broker_id,$req->Broker_Name,$req->Contact_No,$req->PanNo,$req->email,$req->Emp_Code,$req->city_Id,$req->remark,$req->Is_Active));
+		return Redirect('associate-master');
 
 	}
 	public function associatelist()
 	{
 		$assign=DB::select("call usp_get_assing_associate()");
-	    $associate=DB::select("call usp_get_associate_list()");
-	    $city=DB::select("call usp_get_leadcity_master()");	
+		$associate=DB::select("call usp_get_associate_list()");
+		$city=DB::select("call usp_get_leadcity_master()");	
 		return view('associate-list',['assign'=>$assign,'associate'=>$associate,'city'=>$city])->with('no', 1);
 	}
 	public function associate_list(Request $req)
 	{ 
-		 $va=0;
+		$va=0;
 		if(isset($req->m_Is_Active)){
-           $va=1;
+			$va=1;
 		}else{
-			 $va=0;
+			$va=0;
 		}
 		//print_r($req->all());exit();
 		DB::statement('call Update_associate_master(?,?,?,?,?,?,?,?,?)',array($req->m_Broker_id,$req->m_Broker_Name,$req->m_Contact_No,$req->m_PAN_No,$req->m_Email_Id,$req->m_Emp_Code,$req->m_city_Id,$req->m_remark,
@@ -276,8 +341,8 @@ class MastersController extends Controller
 	{
 	  //print_r($req->all());exit();
 		DB::statement("call msg_link_details_Insert(?,?,?)",array($req->link,$req->MsgBody,$req->title));
-	   	   Session::flash('message', 'City saved successfully');
-	   	return Redirect('link-entry');
+		Session::flash('message', 'City saved successfully');
+		return Redirect('link-entry');
 	}
 //***-*-*-*-*-*-*-*-*-*-App-Version-Master
 	public function appversionmaster()
@@ -289,12 +354,12 @@ class MastersController extends Controller
 	{
 	//print_r($req->all()); exit();
 		DB::statement("call app_version_Master_edit(?,?)",array($req->App_Type_Name,$req->Version_Code));
-	   		return Redirect('app-version-master');
-	   	}
+		return Redirect('app-version-master');
+	}
 	public function appversionmaster_history()
 	{
 		$users=DB::select("call usp_get_Version_History_Master()");
-	        return view('app-version-master-history',['users'=>$users]);
+		return view('app-version-master-history',['users'=>$users]);
 	}	   
 //*********-*-*-*-**Loan-Disbursement
 	public function loandisbursement()
@@ -318,8 +383,8 @@ class MastersController extends Controller
 	public function bank_payout(Request $req)
 	{
 		//print_r($req->all());exit();
-		 DB::select('call Update_bank_payoutMaster(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',array($req->m_Id,$req->m_Bank_Id,$req->m_Product_Id,$req->m_Payoutfrom1,$req->m_Payoutfrom2,$req->m_Payoutfrom3,$req->m_Payoutfrom4,$req->m_Payoutfrom5,$req->m_Payoutto1,$req->m_Payoutto2,$req->m_Payoutto3,$req->m_Payoutto4,$req->m_Payoutto5,$req->m_Payoutper1,$req->m_Payoutper2,$req->m_Payoutper3,$req->m_Payoutper4,$req->m_Payoutper5,$req->m_Processing_Per,$req->m_Flat_Per));
-		 return Redirect('bank-payout-master');
+		DB::select('call Update_bank_payoutMaster(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',array($req->m_Id,$req->m_Bank_Id,$req->m_Product_Id,$req->m_Payoutfrom1,$req->m_Payoutfrom2,$req->m_Payoutfrom3,$req->m_Payoutfrom4,$req->m_Payoutfrom5,$req->m_Payoutto1,$req->m_Payoutto2,$req->m_Payoutto3,$req->m_Payoutto4,$req->m_Payoutto5,$req->m_Payoutper1,$req->m_Payoutper2,$req->m_Payoutper3,$req->m_Payoutper4,$req->m_Payoutper5,$req->m_Processing_Per,$req->m_Flat_Per));
+		return Redirect('bank-payout-master');
 	}	
 //******-*-*-**source-master
 	public function sourcemaster()
@@ -327,29 +392,29 @@ class MastersController extends Controller
 		$smsdata=DB::select("call usp_get_source_master()");
 		return view('source-master',['smsdata'=>$smsdata])->with('no', 1);
 	}
-		public function source_master(Request $req)
+	public function source_master(Request $req)
 	{
 		DB::statement("call Insert_source_master(?,?)",array($req->p_source_name,$req->p_is_Active));
 		return Redirect('source-master');
 	}
 	public function source_master_edit(Request $req)
 	{ 
-         $va=0;
+		$va=0;
 		if(isset($req->Is_Active)){
-           $va=1;
+			$va=1;
 		}else{
-			 $va=0;
-			}
-		 
-		 DB::select("call Update_source_master(?,?,?)",array($req->source_id,$req->source_name,$va));
-		 return Redirect('source-master');
+			$va=0;
 		}
+
+		DB::select("call Update_source_master(?,?,?)",array($req->source_id,$req->source_name,$va));
+		return Redirect('source-master');
+	}
 //******bank-product-web
 	public function bankproductweb()
 	{
 		$select=DB::select("call usp_get_product_master()");
-			$bank=DB::select("call usp_get_bankmaster()");
-			return view('bank-product-web',['select'=>$select,'bank'=>$bank]);
+		$bank=DB::select("call usp_get_bankmaster()");
+		return view('bank-product-web',['select'=>$select,'bank'=>$bank]);
 	}
 //******city-wise-employee
 	public function citywiseemployee()
@@ -372,21 +437,21 @@ class MastersController extends Controller
 		$smsdata=DB::select("call usp_get_message_master()");
 		return view('message-master',['smsdata'=>$smsdata]);
 	}
-		public function message_master(Request $req)
+	public function message_master(Request $req)
 	{
 		DB::statement("call Insert_message_master(?,?,?)",array($req->messageTitle,$req->messageBody,$req->is_Active));
 		return Redirect('message-master');
 	}
 	public function message_master_edit(Request $req)
 	{ 
-		 $va=0;
+		$va=0;
 		if(isset($req->m_is_Active)){
-           $va=1;
+			$va=1;
 		}else{
-			 $va=0;
+			$va=0;
 		}
-		 DB::select("call Update_message_master(?,?,?,?)",array($req->m_message_id,$req->m_messageTitle,$req->m_messageBody,$va));
-		 return Redirect('message-master');
+		DB::select("call Update_message_master(?,?,?,?)",array($req->m_message_id,$req->m_messageTitle,$req->m_messageBody,$va));
+		return Redirect('message-master');
 	}
 	public function editbankpayout($id)
 	{

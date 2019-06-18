@@ -40,7 +40,7 @@
               <td>{{$val->Department_Name}}</td>
               <td>{{$val->Reporting_emp}}</td>
               <td>{{$val->EmpId}}</td>
-              <td><a class="btn btn-primary" href="edit-employe-list/{{ $val->EmpId }}">Edit</a></td>
+              <td><a class="btn btn-primary" href="edit-employe-listtt/{{ $val->EmpId }}">Edit</a></td>
         </tr>
 
           @endforeach

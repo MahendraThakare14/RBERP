@@ -71,7 +71,7 @@ return [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', '13.232.125.131'),
             'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'RupeeBoss'),
+            'database' => env('DB_DATABASE', 'RBBAK'),
             'username' => env('DB_USERNAME', 'rb'),
             'password' => env('DB_PASSWORD', 'K@lam123'),
             'charset' => 'utf8',

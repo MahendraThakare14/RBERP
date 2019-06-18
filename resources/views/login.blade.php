@@ -22,12 +22,12 @@
 
     <form action="{{url('login')}}" method="post">{{csrf_field()}}
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" name="email" placeholder="Email" value="RB40000003">
+        <input type="text" class="form-control" name="email" placeholder="Email" value="RB40000401">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           @if ($errors->has('email'))<label class="control-label" for="inputError" > {{ $errors->first('email') }}</label>  @endif
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" name="password" placeholder="Password" value="SwBjADgAOQBEAGsA">
+        <input type="password" class="form-control" name="password" placeholder="Password" value="1234">
          @if ($errors->has('password')) <label class="control-label" for="inputError">{{ $errors->first('password') }} </label> @endif
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
