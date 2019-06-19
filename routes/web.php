@@ -192,11 +192,6 @@ Route::get('pas-details','pas\PasController@pms_details');
 Route::post('asp-insert','pas\PasController@pas_insert');
 Route::get('pas-registrar','pas\PasController@pas_registrar'); 
 Route::get('pas-data','pas\PasController@pas_data'); 
-Route::post('employee-master-insert','MastersController@employee_master_insert'); 
-
-
-
-
-
+Route::post('employee-master-insert','MastersController@employee_master_insert');
 
 });
