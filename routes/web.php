@@ -11,16 +11,20 @@
 |
 */
 
+
+
+
 Route::get('/','LoginController@checklogin');
 Route::post('login','LoginController@login');
 Route::get('logout','LoginController@logout');
 
+
 Route::group(['middleware' => ['CheckMidd']], function (){
-Route::get('dashboard','DashboardController@dashboard');
+ Route::get('dashboard','DashboardController@dashboard');
 Route::get('employee-master','MastersController@aspxdata');
 Route::post('employee-master_submit','MastersController@employee_master_submit');
 Route::post('employee-master','MastersController@employ_master');
-Route::POST('update_empmaster','MastersController@employ_master');
+Route::POST('update-emp-master','MastersController@employee_master_update');
 
 Route::get('bank-master','MastersController@bankmaster');
 Route::post('bank-master','MastersController@bank_master');
@@ -40,7 +44,7 @@ Route::POST('update_designation_master','MastersController@designation_master');
 
 Route::get('employee-list','MastersController@employelistmaster');
 Route::get('edit-employe-list','MastersController@edit_employelist_master');
-Route::get('edit-employe-list/{id}','MastersController@table_edit');
+Route::get('edit-employe-listtt/{id}','MastersController@table_edit');
 Route::post('update_employe_list','MastersController@employe_master_editlist');
 
 Route::get('leadstatus-master','MastersController@leadstatusmaster');
@@ -96,93 +100,109 @@ Route::get('bank_contact_details-new','bank_contact_detailsController@bankdetail
 
 
 
+});
+
+
+Route::group(['middleware' => ['CheckMidd']], function (){
 
 
 
-
-
-           //**UsersController***********************
-
-Route::get('user-group','UsersController@usergroup');
-Route::get('user-master','UsersController@usermaster');
-Route::get('user-rights','UsersController@userrights');
-Route::get('user-rights/{id}', 'UsersController@search');
+Route::get('vivek','VivekController@vivek');
 
 Route::get('edit-menu','UsersController@editmenu');
 Route::get('menu-master','UsersController@menumaster');
 Route::post('menu-master-insert','UsersController@menu_master_insert');
 
-Route::get('group-rights','UsersController@grouprights');
-Route::get('monthly-target','UsersController@monthlytarget');
 
-           //**BillingController***********************
+// Route::get('dashboard','IndexController@dashboard');
+// Route::get('dashboardnew','DashboardController@chartdashboard');
+//Route::get('dashboardnew','DashboardController@dashboard');
 
-Route::get('create-invoice','BillingController@createinvoice');
-Route::get('create-broker-invoice','BillingController@brokerinvoice');
-Route::get('broker-invoice-register','BillingController@brokerinvoiceregister');
+Route::get('/registration','IndexController@registration');
+Route::post('/registration-form','IndexController@insert_registration');
 
-         //**ActivityController***********************
+/*Project-Master*/
 
-Route::get('daily-planning','ActivityController@dailyplanning');
-Route::post('daily-planning-insert','ActivityController@daily_planning');
-Route::post('update_daily','ActivityController@daily_planning_edit');
+Route::get('/project-master','ProjectController@project');
+Route::post('/project-master-form','ProjectController@project_insert');
+Route::get('/project-master-sp','ProjectController@project_master_sp');
 
-Route::get('lead-capture','ActivityController@leadcapture');
-Route::get('registration-report','ActivityController@registrationreport');
-Route::get('campaign-wise-report','ActivityController@campaignwisereport');
-Route::get('credit-card-entry','ActivityController@creditcardentry');
+Route::get('/task-description','ProjectController@projectmaster');
+Route::post('/task-description-form','ProjectController@project_master');
+Route::get('/project-master-view','ProjectController@projectmasterview');
 
 
+// Route::get('/employee-master','EmployeeMasterController@employeemaster');
+// Route::post('/employee-master-form','EmployeeMasterController@employee_master');
+// Route::get('/employee-table','EmployeeMasterController@employee_table');
+// Route::get('/employee-master-view/{id}','EmployeeMasterController@employeeupdate');
+// Route::post('/employee-master-update','EmployeeMasterController@employee_update');
 
 
-                 //***LeadsController************************
+Route::get('/assign-task','AssignTaskController@assigntask');
+Route::get('/project-master','ProjectController@projectview');
 
-Route::get('manage-leads','LeadsController@manageleads');
-Route::get('manage-leads-get/{fdate}/{tdate}','LeadsController@getleaddata');
-Route::post('update_manage_leads','LeadsController@manage_leads');
+Route::get('/task-history','AssignTaskController@taskhistory');
+Route::get('/task-history-view/{id}','AssignTaskController@task_history_view');
+Route::post('/task-history-update','AssignTaskController@task_history_update');
+Route::get('/create-issue','CreateIssueController@create_issue');
+Route::post('/create-issue-form','CreateIssueController@insert_create_issue');
+Route::get('/module-master','ModuleController@modulemaster');
+Route::post('/module-master-insert','ModuleController@insertmodulemaster');
+Route::get('/module-master-view','ModuleController@modulemasterview');
+Route::get('/task-master','TaskMasterController@taskmaster');
+Route::get('/task-master-view','TaskMasterController@taskmasterview');
+Route::post('/task-master-insert','TaskMasterController@inserttaskmaster');
 
-Route::get('searchajax',array('as'=>'searchajax','uses'=>'LeadsController@autoComplete'));
-Route::get('searchajax-Emp-Name',array('as'=>'searchajax-Emp-Name','uses'=>'LeadsController@autoComplete_employee'));
-Route::get('searchajax-vertical',array('as'=>'searchajax-vertical','uses'=>'LeadsController@autoComplete_vertical'));
-Route::get('searchajax-source-name',array('as'=>'searchajax-source-name','uses'=>'LeadsController@autoComplete_Source'));
-Route::get('searchajax-status',array('as'=>'searchajax-status','uses'=>'LeadsController@autoComplete_Status'));
-Route::get('lead-reassign-telecaller','LeadsController@leadreassigntelecaller');
-Route::get('lead-lead-capture','LeadsController@leadleadcapture');
-Route::POST('lead-lead-capture','LeadsController@lead_lead_capture');
-Route::get('priority-manage-leads','LeadsController@prioritymanageleads');
-Route::get('PB-payout-master','LeadsController@pbpayoutmaster');
-Route::get('push-sms-entry','LeadsController@pushsmsentry');  
-Route::get('lead-status-update-flow/{id}','LeadsController@leadstatusupdateflow');
-Route::get('lead-assign-telecaller','LeadsController@leadassigntelecaller');
+Route::get('/tag-activity-view','TagActivityController@tagactivityview');
+Route::post('/tag-activity-insert','TagActivityController@tagactivityinsert');
+Route::get('/tag-activity','TagActivityController@tagactivity');
+
+
+Route::get('/assign-tag-activity','TagActivityController@assignactivity');
+
+
+Route::get('/subtask-master','SubTaskMasterController@subtaskmaster');
+Route::get('/subtask-master-view','SubTaskMasterController@subtaskmasterview');
+Route::post('/subtask-master-insert','SubTaskMasterController@subinserttaskmaster');
+Route::get('/assign-subtask-master/{id}','SubTaskMasterController@assignSubtaskmaster
+');
+Route::get('/Releses','RelesesController@release');
+Route::post('/realeses-details-insert','RelesesController@releasedetails');
+
+
 
 Route::get('manage-fba-data','LeadsController@managefbadata');
 Route::get('manage-fba-get/{fdate}/{tdate}','LeadsController@managefba');
 Route::get('edit-fba-data/{id}','LeadsController@editfbadata');
 
 
-
-
-         //*** ReportingController***********************
-
-Route::get('lead-assign-report','ReportingController@leadassignreport');
-Route::get('call-tracking-report','ReportingController@calltrackingreport');
-Route::get('sms-link-report','ReportingController@smslinkreport');
-Route::get('daily-followup-report','ReportingController@dailyfollowupreport');
-Route::get('lead-report','ReportingController@leadreport');
+Route::get('/release-details','RelesesController@releasedetailsview');
+Route::get('/bug-activity','BugActivityController@bugactivity');
+Route::post('/bug-activity-insert','BugActivityController@bugactivityinsert');
+Route::get('/bug-activity-view','BugActivityController@bugactivityview');
 
 
 
- /************
-//  Menu List
-******************/
-Route::get('menu-list','MenuController@menulist');
-Route::post('menu-list-add','MenuController@menulist_add');
-Route::get('menu-mapping','MenuController@menu_mapping');
-
-Route::post('grouprights-add','MenuController@grouprights_add');
+Route::get('/home','HomeController@homemaster');
+Route::post('/home-master-insert','HomeController@inserthomemaster');
 
 
+Route::get('/home-master-view','HomeController@homemasterview');
+Route::get('/openissues','OpenIssueController@open_issue');
 
+Route::get('/openissues-view/{id}','OpenIssueController@open_issueview');
+
+Route::get('/open-issues','OpenIssueController@openis');
+
+
+Route::get('/open-bug-issue','OpenIssueController@openbug');
+
+Route::get('/view-recently','OpenIssueController@view_recently');
+
+Route::get('/recently-resolved','OpenIssueController@recently_resolved');
+
+Route::get('/view-all-bug','OpenIssueController@view_all_bug');
 
  /************
 //  Performance Appraisal System 
@@ -192,6 +212,31 @@ Route::get('pas-details','pas\PasController@pms_details');
 Route::post('asp-insert','pas\PasController@pas_insert');
 Route::get('pas-registrar','pas\PasController@pas_registrar'); 
 Route::get('pas-data','pas\PasController@pas_data'); 
+
 Route::post('employee-master-insert','MastersController@employee_master_insert');
 
+Route::post('employee-master-insert','MastersController@employee_master_insert'); 
+
+Route::get('/unrelesed','OpenIssueController@task_unrelesed');
+Route::get('/google-line-chart', 'GoogleChartController@googleLineChart');
+Route::get('/report','GoogleChartController@chart');
+Route::get('/user-details-view','UserController@userdetails_view');
+Route::get('/user-login-details/{id}','UserController@userdetail_update');
+Route::get('/user-details','UserController@userlogin_view');
+Route::get('/user-details-update','UserController@user_update');
+Route::post('/user-details-insert','UserController@user_detail_insert');
+
+   // print_r($req->all());
+
+
+
+Route::get('/header','HomeControlle@issueheader');
+
+
+Route::get('/menu-group','MenuController@menugroup');
+Route::get('/menu-list','MenuController@menulist');
+Route::post('/menu-list-form','MenuController@menu_list');
+Route::get('/menu-group','MenuController@menugroup');
+
+Route::get('get-count-value/{id}','AssignTaskController@getcountvalue');
 });
