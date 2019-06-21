@@ -114,7 +114,9 @@
 	
               <!-- <div class="table-responsive">    -->
 
-              	
+              <div id="divhistory">
+      
+    </div>	
 
 		 </div>
 
@@ -122,13 +124,15 @@
          </div>
         </div>
       </div>
-       <div class="table-responsive">    
+      <!--  <div class="table-responsive">    
           <div id="tablediv" style="display:none"> 
 			   <div id="table_response">  
 
 			   </div>
 			  </div>
-			</div>
+			</div> -->
+
+	
 
 
     </div>
@@ -153,24 +157,53 @@
            processData: false,
              contentType : false,
              success: function(msgdata){
-              var response = JSON.parse(msgdata);
-              if (response.status == "success"){
 
-             $("#tablediv").show();
-             $("#table_response").html(response.table);
+             	var data = JSON.parse(msgdata);
 
-              }else
-              if(response.messege == "error"){
-                  window.location = response.redirectUrl;
+
+    if (data.status == "success"){      
+       var str ="<table id='example'  class='table table-bordered table-striped'><thead><tr><th>Manager</th><th>Emp Code</th><th>No of Exp Customers</th><th>No of DisbursedCustomers</th><th>No Of Disbursed Files</th><th>Disbursed Amount</th><th>Exp.DisbursalFiles</th><th>Exp.Disbursal Amount</th><th>Online.Disbursal Amount</th><th>Online %</th><th>Exp.Billing Amt</th><th>No. of Sanction File</th><th>Sanction Amount</th></tr></thead><tbody>";
+       for (var i = 0; i < data.result.length; i++) 
+       {
+
+      
+
+         str = str + "<tr><td><a href='' onclick='demo(data.result[i].emp_code)'>"+data.result[i].Name+"</a></td><td>"+data.result[i].emp_code+"</td><td>"+data.result[i].no_of_customers+"</td><td>"+data.result[i].no_of_disbursed_customers+"</td><td>Disbursed Amount"+data.result[i].no_of_files_disbursed+"</td><td>"+data.result[i].dis_Amt+"</td><td>"+data.result[i].Exp_dis_files+"</td><td>"+data.result[i].Online_dis_amt+"</td><td>"+data.result[i].online_percent+"</td><td>"+data.result[i].exp_billing+"</td><td>"+data.result[i].no_of_saction+"</td><td>"+data.result[i].Sanction_amt+"</td></tr>";
+       }
+         str = str + "</tbody></table>";
+
+            $('#divhistory').html(str);
+           $('#example').DataTable();                
+      // }
+   }else{
+              if(data.messege == "error"){
+                  window.location = data.redirectUrl;
                }else{
-                  $.each(response , function(key , value){
+                  $.each(data , function(key , value){
                      $("#err_" + key).text(value);
                   });
-	              }
 	            }
-	        });
+	          }
+	        }
+	    });
 	    });
 </script>
+
+<script type="text/javascript">
+ function demo(emp_code){
+ 	alert(emp_code);
+   $.ajax({
+    url: 'dashboard-re-model/'+id,
+    type: "GET",
+    success:function(user)
+    {
+      var data=  JSON.parse(user);
+    }   
+  });
+ } 
+</script>
+
+
 
 
 <script>

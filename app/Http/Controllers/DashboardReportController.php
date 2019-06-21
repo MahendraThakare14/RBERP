@@ -31,6 +31,7 @@ class DashboardReportController extends Controller
 		
 		$data = array();
 		$error = array();
+		$response = array();
 		$parameters['REQUEST'] = $req->all();
 		$parameters['VALIDATIONS'] = array(
 			'REQUIRED_VALIDATIONS'=>array('f_date'=>'Please Select Date','t_date'=>'Please Select Date','ddlfilter'=>'Please Select One','companyname'=>'Please Select Company','ddlloantype'=>'Please Select One'));
@@ -45,58 +46,68 @@ class DashboardReportController extends Controller
 				':company' => $req->companyname,				
 				':Loan_type' =>$req->ddlloantype
 			]);
+			 //return json_encode($query);
+
+			 $response['status'] = 'success';  
+			 $response['result'] = $query;  
+
+			 echo json_encode($response);   
+      }else{
+        echo json_encode($error);  
+      }
+  }
 
 
-    $table = '<table id="example"  class="table table-bordered table-striped">
-                <thead>
-                  <tr> 
-                    <th>Manager</th>
-                    <th>Emp Code</th>
-                    <th>No of Exp Customers</th>
-                    <th>No of DisbursedCustomers</th>
-                    <th>No Of Disbursed Files</th>
-                    <th>Disbursed Amount</th>
-                    <th>Exp.DisbursalFiles</th>
-                    <th>Exp.Disbursal Amount</th>
-                    <th>Online.Disbursal Amount</th>                    
-                    <th>Online %</th>                    
-                    <th>Exp.Billing Amt</th>
-                    <th>No. of Sanction File</th>
-                    <th>Sanction Amount</th>
+    // $table = '<table id="example"  class="table table-bordered table-striped">
+    //             <thead>
+    //               <tr> 
+    //                 <th>Manager</th>
+    //                 <th>Emp Code</th>
+    //                 <th>No of Exp Customers</th>
+    //                 <th>No of DisbursedCustomers</th>
+    //                 <th>No Of Disbursed Files</th>
+    //                 <th>Disbursed Amount</th>
+    //                 <th>Exp.DisbursalFiles</th>
+    //                 <th>Exp.Disbursal Amount</th>
+    //                 <th>Online.Disbursal Amount</th>                    
+    //                 <th>Online %</th>                    
+    //                 <th>Exp.Billing Amt</th>
+    //                 <th>No. of Sanction File</th>
+    //                 <th>Sanction Amount</th>
                    
-                  </tr>
-                </thead><tbody>';
+    //               </tr>
+    //             </thead><tbody>';
 
 
-    foreach($query as $val){
-      $table  .= '<tr>';
-        $table .= '<td>'. $val -> Name . '</td>';
-        $table .= '<td>'. $val -> emp_code . '</td>';
-        $table .= '<td>'. $val -> no_of_customers . '</td>';
-        $table .= '<td>'. $val -> no_of_disbursed_customers . '</td>';
-        $table .= '<td>'. $val -> no_of_files_disbursed . '</td>';
-        $table .= '<td>'. $val -> dis_Amt . '</td>';
-        $table .= '<td>'. $val -> Exp_dis_files . '</td>';
-        $table .= '<td>'. $val -> Exp_dis_Amt . '</td>';
-        $table .= '<td>'. $val -> Online_dis_amt . '</td>';
-        $table .= '<td>'. $val -> online_percent . '</td>';
-        $table .= '<td>'. $val -> exp_billing . '</td>';
-        $table .= '<td>'. $val -> no_of_saction . '</td>';
-        $table .= '<td>'. $val -> Sanction_amt . '</td>';        
-        $table .= '</tr>';
-    }
+//     foreach($query as $val){
+//       $table  .= '<tr>';
+//         $table .= '<td >'.<a> $val -> Name . '</td>';
+//         $table .= '<td>'. $val -> emp_code . '</td>';
+//         $table .= '<td>'. $val -> no_of_customers . '</td>';
+//         $table .= '<td>'. $val -> no_of_disbursed_customers . '</td>';
+//         $table .= '<td>'. $val -> no_of_files_disbursed . '</td>';
+//         $table .= '<td>'. $val -> dis_Amt . '</td>';
+//         $table .= '<td>'. $val -> Exp_dis_files . '</td>';
+//         $table .= '<td>'. $val -> Exp_dis_Amt . '</td>';
+//         $table .= '<td>'. $val -> Online_dis_amt . '</td>';
+//         $table .= '<td>'. $val -> online_percent . '</td>';
+//         $table .= '<td>'. $val -> exp_billing . '</td>';
+//         $table .= '<td>'. $val -> no_of_saction . '</td>';
+//         $table .= '<td>'. $val -> Sanction_amt . '</td>';        
+//         $table .= '</tr>';
+//     }
 
-//print_r($table); exit();
+// //print_r($table); exit();
 
-    $table .= '</tbody></table>';
-    $table .= '<script> $("#example").DataTable(); </script>';
-    $msg = array("status"=>"success", "table" => $table);
+//     $table .= '</tbody></table>';
+//     $table .= '<script> $("#example").DataTable(); </script>';
+//     $msg = array("status"=>"success", "table" => $table);
 	
-	echo json_encode($msg);
-		}
-		else{
-			echo json_encode($error);
+	// echo json_encode($msg);
+	// 	}
+	// 	else{
+	// 		echo json_encode($error);
 
-		}
-	}
+	// 	}
+	// }
 }
