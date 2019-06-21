@@ -189,21 +189,36 @@ class LeadsController extends Controller
     public function leadstatusupdateflow($id)
     {
 
+  $user=DB::select(DB::raw("exec Usp_Load_LEadData :Lead_id"),[
+    ':Lead_id' => "1463828",
+   // ':password' => $request->password,
+]);
+             
 
-        $user= DB::select("call usp_show_lead_data(?)",array($id))[0];
+      // $user= DB::select("exec Usp_Load_LEadData(?)",array($id))[0];
         //$user=DB::select("call usp_show_lead_data($id)");
-        $city=DB::select("call usp_get_leadcity_master()");
-        $source=DB::select("call usp_get_leadsource_master()");
-        $broker=DB::select("call usp_get_leadbroker_master()");
-        $bank=DB::select("call usp_get_leadbank_master()");
-        $assign=DB::select("call usp_get_assign_master()");
-        $mlstatus=DB::select("call usp_ml_status_master()");
-        $manager=DB::select("call usp_get_lead_bmanager()");
-        $rmanager=DB::select("call usp_get_lead_bmanager()");
-        $product=DB::select("call usp_get_product_master()");
-        return view('lead-status-update-flow',['city'=>$city,'source'=>$source,'broker'=>$broker,'bank'=>$bank,'assign'=>$assign,'user'=>$user,'mlstatus'=>$mlstatus,'manager'=>$manager,'rmanager'=>$rmanager,'product'=>$product]);
+        $city=DB::select("exec Usp_Load_city");
+        $source=DB::select("exec USP_Load_Source");
+        //$broker=DB::select("exec L_load_broker_Typ");
+        $bank=DB::select("exec USP_Load_Bank");
+       $assign=DB::select("exec USP_Load_EMP_Name_Sharing");
+        $mlstatus=DB::select("exec Usp_main_lead_status_fill");
+        $manager=DB::select("exec UspDispBMRMList");
+        $rmanager=DB::select("exec UspDispBMRMList");
+        $product=DB::select("exec Get_Product");
+        return view('manage-lead-data',['city'=>$city,'source'=>$source,'bank'=>$bank,'user'=>$user,'mlstatus'=>$mlstatus,'manager'=>$manager,'rmanager'=>$rmanager,'product'=>$product,'assign'=>$assign]);
     }
+     public function loadsubstatus($id)
+    {
 
+       $ldata=DB::select(DB::raw("exec Usp_Sub_lead_status_fill:Lead_Status_Id"),[
+    ':Lead_Status_Id' => $id
+     ]);
+    // print_r($ldata); exit();
+    return json_encode($ldata);
+
+    }
+ 
     public function manage_leads(Request $req)
     {
         //print_r($req->all());exit();
