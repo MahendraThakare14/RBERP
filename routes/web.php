@@ -99,6 +99,10 @@ Route::get('bank_contact_details-new','bank_contact_detailsController@bankdetail
 
 
 
+Route::get('lead_sub_status/{id}','LeadsController@loadsubstatus');
+
+
+
 
 });
 
@@ -248,10 +252,16 @@ Route::get('priority-manage-leads','LeadsController@prioritymanageleads');
 Route::get('PB-payout-master','LeadsController@pbpayoutmaster');
 Route::get('push-sms-entry','LeadsController@pushsmsentry');  
 
-Route::get('lead-status-update-flow/{id}','LeadsController@leadstatusupdateflow');
-Route::get('lead-status-update-flow/{id}','LeadsController@leadstatusupdateflow');
+Route::get('manage-lead-data/{id}','LeadsController@leadstatusupdateflow');
+
+
+
+
+// Route::get('manage-lead-data/{id}','LeadsController@leadstatusupdateflow');
 
 Route::get('lead-assign-telecaller','LeadsController@leadassigntelecaller');
+
+
 
 
 

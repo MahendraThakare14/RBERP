@@ -13,13 +13,15 @@
             <div class="Absolute-Center is-Responsive">
                 <div id="logo-container"></div>
                 <form class="form-horizontal" name="break_master" id="break_master"  method="post">
+                  <input type="hidden" name="txtallproduct" id="txtallproduct">
+                  <input type="hidden" name="txtpayout" id="txtpayout">
            {{csrf_field()}}
 
                      <div class="col-sm-6">
                         <div class="form-group row">
                          <label for="Broker_Name" class="col-sm-5 col-form-label">Associate&nbsp;Name:</label>
                           <div class="col-sm-7">
-                            <input type="text" class="form-control" id="Broker_Name" name="Broker_Name"  value="" placeholder="Enter a Break Type"  required>
+                            <input type="text" class="form-control" id="Broker_Name" name="Broker_Name"  value="" placeholder="Enter a Associate Name"  required>
                           </div>
                         </div>
                       </div>
@@ -60,7 +62,7 @@
                             <select  class="form-control" id="Emp_Code" name="Emp_Code">
                              <option value="-1">Select One</option>
                              @foreach($assign as $val)
-                             <option value="{{$val->Emp_Code}}">{{$val->Emp_Name}}</option>
+                             <option value="{{$val->emp_code}}">{{$val->emp_name}}</option>
                              @endforeach
                             </select>
                            </div>
@@ -74,7 +76,7 @@
                             <select  class="form-control" id="city_Id" name="city_Id">
                               <option disabled selected  value="0">Select&nbsp;City</option>
                               @foreach($lead as $lead)
-                              <option value="{{$lead->City_Id}}">{{$lead->City_Name}}</option>
+                              <option value="{{$lead->city_id}}">{{$lead->city_name}}</option>
                               @endforeach
                             </select>
                            </div>
@@ -86,7 +88,7 @@
                           <label for="parentBrokerId" class="col-sm-5 col-form-label">Parent&nbsp;Name:</label>
                           <div class="col-sm-7">
                             <select  class="form-control" id="parentBrokerId" name="parentBrokerId">
-                              <option disabled selected  value="0">Select&nbsp;Time</option>
+                              <option disabled selected  value="0">Select&nbsp;Parent Associate</option>
                             </select>
                           </div>
                         </div>
@@ -112,7 +114,7 @@
 
 
 
-  <table id="example" class="table table-striped table-bordered" role="grid" aria-describedby="otp-details-id_info">
+  <table id="tblproduct" class="table table-striped table-bordered" role="grid" aria-describedby="otp-details-id_info">
     <thead>
          <tr>
                 <th>Sr No</th>
@@ -128,10 +130,12 @@
              @foreach($smsdata as $val)
               <tr>
                 <td>{{ $no++ }}</td>
-                <td>{{$val->Product_Id}}</td>
-                <td>{{$val->Product_Name}}</td>
-                <td> <input type="text" name=""></td>
-                <td><input name="check" id="checkAll" type="checkbox" value="yes"></td>
+                <td>{{$val->product_id}}</td>
+                <td>{{$val->product_name}}</td>
+                <td> <input class="in" type="text" name="{{$val->product_id}}"></td>
+                <input class="in" type="text" value="{{$val->product_id}}" name="product_id[]">
+
+                <td><input name="check[]" id="checkAll" class="txtchk" type="checkbox" value="{{$val->product_id}}"></td>
             </tr>
           @endforeach
         </tbody>
@@ -153,21 +157,43 @@
 
 
     <script type="text/javascript">
-      $(document).ready(function(){
-        $("#checkAll").click(function () {
-          $("INPUT[id^='checkAll']").not(this).prop('checked', this.checked);
-          // $('input:checkbox').not(this).prop('checked', this.checked);
-          // len=$(".check_list:checkbox:checked").length;
-          // $('#msg_check').text(len+"/");
-        });
+
+      $("#checkAll").click(function(){
+     $('.txtchk').not(this).prop('checked', this.checked);
+     $(".txtchk:checkbox:checked");
+     var txtchk = [];    
+     $.each($("input[class='txtchk']:checked"), function(){            
+      txtchk.push($(this).val());
+    });      
+      alert(txtchk);
+    $("#txtallproduct").val('');
+    $("#txtallproduct").val(txtchk)
+    });
+
+
+$(".txtchk").click(function(){
+      var txtchk = [];
+      $.each($("input[class='txtchk']:checked"), function(){            
+        txtchk.push($(this).val());
       });
-    </script>
+    alert(txtchk);
+    $("#txtallproduct").val('');
+    $("#txtallproduct").val(txtchk);   
+  });
 
-    <script>
-    $(document).ready(function() {
-        $('#example').DataTable();
-    } );
-    </script>
-     
+  $(document).ready(function(){
+    $('#tblproduct').DataTable({
+      "paging":   false,      
+    });
 
-    @endsection
+     $('.in').on('input',function(){
+    var allvals = $('.in').map(function() { 
+        return this.value; 
+    }).get().join(',');
+    $('#txtpayout').val(allvals);
+  });
+  });
+
+
+</script>
+@endsection

@@ -1,5 +1,12 @@
 @extends('include.master')
 @section('content')
+<style type="text/css">
+  .error_class
+  {
+    color: red;
+    font-size: 12px;
+  }
+</style>
   <div class="content">
    <div class="box box-default">
     <div class="box-header with-border">
@@ -22,14 +29,18 @@
                 <label for="Bank_Name" class="col-sm-4 col-form-label">Bank&nbsp;Name:</label>
                   <div class="col-sm-8">
                     <input type="text" class="form-control" id="Bank_Name" name="Bank_Name"  value="" placeholder="Bank Name"  required>
+                     <label id="err_Bank_Name" class="error_class"></label>
                   </div>
               </div>
 
+
+           
 
               <div class="form-group row">
                 <label for="Product_Name" class="col-sm-4 col-form-label">Address:</label>
                   <div class="col-sm-8">
                     <textarea type="text" class="form-control" id="Bank_Address" name="Bank_Address"  value="" placeholder="Enter a Address"  required></textarea>
+                      <label id="err_Bank_Address" class="error_class"></label>
                   </div>
               </div>
 
@@ -38,6 +49,14 @@
                 <label for="Bank_Code" class="col-sm-4 col-form-label">Bank&nbsp;Code:</label>
                   <div class="col-sm-8">
                     <input type="text" class="form-control" id="Bank_Code" name="Bank_Code"  value="" placeholder="Bank Code"  required>
+                      <label id="err_Bank_Code" class="error_class"></label>
+                  </div>
+              </div>
+               <div class="form-group row">
+                <label for="Tan_No" class="col-sm-4 col-form-label">TAN&nbsp;No:</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="Tan_No" name="Tan_No"  value="" placeholder="TAN Number"  required>
+                      <label id="err_Tan_No" class="error_class"></label>
                   </div>
               </div>
 
@@ -45,20 +64,24 @@
               <div class="form-group row">
                 <label for="Document1" class="col-sm-4 col-form-label">Select&nbsp;File:</label>
                 <div class="col-sm-8">
-                  <input type="file" class="form-control" id="Document1" name="Document1"  value="">
+                   <input type="file" name="Document1" id="Document1">
+                  <!-- <input type="file" class="form-control" id="UDocument1" name="UDocument1"  value=""> -->
                 </div>
               </div>
+
+
 
 
               <div class="form-group row">
                 <label for="Document2" class="col-sm-4 col-form-label">Select&nbsp;Logo:</label>
                 <div class="col-sm-8">
-                  <input type="file" class="form-control" id="Document2" name="Document2"  value="">
+                  <input type="file" name="Document2" id="Document2">
+                  <!-- <input type="file" class="form-contro2" id="UDocument1" name="UDocument2"  value="">> -->
                 </div>
               </div>
 
               <center>
-                <input type="submit" name="Button1" value="Submit" id="Button1" class="btn btn-primary">
+                <input type="button" name="Button1" value="Submit" id="Button1" class="btn btn-primary">
                 <input type="Reset" value="Reset" id="Button2" class="btn btn">
               </center>
             </form>
@@ -238,6 +261,48 @@
             @endif
    
   
+<script type="text/javascript">
+  $('#Button1').click(function(){
+    $(".error_class").empty();
+    //alert();
+     var formdata = new FormData($("#bank_master")[0]);
+     //alert(formdata);
+    $.ajax({  
+           type: "POST",  
+           url: "{{URL::to('bank-master')}}",
+            //data : $('#project_m').serialize(),
+            data : formdata,
+           processData: false,
+             contentType : false,
+             success: function(msgdata){
+
+              // if(msgdata[0].id >0){
+              //     alert(msgdata[0].msg);
+              //     location.reload();
+
+              var response = JSON.parse(msgdata);
+
+              if (response.status == "success") {
+
+                alert(response.messege);
+
+              }else
+                    if(response.messege == "error"){
+
+                  window.location = response.redirectUrl;
+               }
+               else{
+                  $.each(response , function(key , value){
+                     $("#err_" + key).text(value);
+                  });
+               }
+             
+             
+  
+           }
+        }); 
+  });
+</script>
 
 <script type="text/javascript">
   function demo(Bank_Name,Bank_Code,Bank_Id,Bank_Address,Document1,Document2){

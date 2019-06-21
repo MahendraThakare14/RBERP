@@ -107,7 +107,7 @@ class MastersController extends Controller
 			$success_msg = array('status'=>'success',"messege"=>"Data Updated sucessfully",'redirectUrl'=>'/employee-list');
 			echo json_encode($success_msg);
 
-           print_r($request->all()); exit();
+          // print_r($request->all()); exit();
 		}
 
 		else{
@@ -129,15 +129,63 @@ class MastersController extends Controller
 //**bank-master*-*-----------*********** 
 	public function bankmaster()
 	{
-		$smsdata=DB::select("call usp_get_bankmaster()");
+		$smsdata=DB::select("exec L_usp_get_bankmaster");
 		return view('bank-master',['smsdata'=>$smsdata])->with('no', 1);	
 	} 
-	public function bank_master(Request $req)
+	public function bank_master(Request $request ,CustomValidation $validator)
 	{
+//print_r($request->all());exit();
+		 $userid=Session::get('userid');
+		  $ipaddress = $_SERVER['REMOTE_ADDR'];
+	
+		$data = array();
+		$error = array();
 
-		DB::statement("call Insert_Bank_Master(?,?,?,?,?)",array($req->Bank_Name,$req->Bank_Address,$req->Bank_Code,$req->Document1,$req->Document2));
-		return Redirect('bank-master');
+		$parameters['REQUEST'] = $request->all();
+		$parameters['VALIDATIONS'] = array(
+			'REQUIRED_VALIDATIONS'=>array('Bank_Name'=>'Please Enter Bank Name','Bank_Address'=>'Please Enter Bank Address','Bank_Code'=>'Please Enter Bank Code','Tan_No'=>'Please Tan No'));
+		extract($validator->validate_required($parameters));
+		if(count($error) === 0){
+			$filename='';
+		$filename2='';
+		$destinationPath = public_path('/images');     
+
+		if($request->Document1){
+			$filename=$request->Document1;
+		}else{
+			$filename=$this->files_fn($request->file('Document1'));
+		}
+		if($request->Document2){
+			$filename2=$request->Document2;
+		}else{
+			$filename2 = $this->files_fn($request->file('Document2'));
+		}
+
+//print_r($filename2);exit();
+			$query=DB::select(DB::raw("exec L_USP_Insert_Bank_Master :Bank_Name,:Bank_Address,:Bank_Code,:Tan_No,:Document1,:Document2,:Is_Active,:IpAddr,:UserId"),[
+				':Bank_Name' => $request->Bank_Name,
+				':Bank_Address' => $request->Bank_Address,
+				':Bank_Code' => $request->Bank_Code,
+				':Tan_No' => $request->Tan_No,
+				':Document1' => $filename,
+				':Document2' => $filename2,
+				':Is_Active' => '1',
+                ':IpAddr' => $ipaddress,
+				':UserId' => $userid
+				
+			]);
+		//print_r($query);exit();
+			$success_msg = array('status'=>'success',"messege"=>"Data inserted sucessfully",'redirectUrl'=>'/relationship');
+			echo json_encode($success_msg);
+		}else{
+			echo json_encode($error);
+
 	}
+
+	//print_r($request->all()); exit();
+		// return Redirect('bank-master');
+	}
+	
 	public function bank_master_edit(Request $req)
 	{
 
@@ -299,10 +347,15 @@ class MastersController extends Controller
 //**-*-*-*-*--**-*-Associate-Master
 	public function associatemaster()
 	{
-		$assign=DB::select("call usp_get_assing_empmaster()");
-		$smsdata=DB::select("call usp_get_product_master()");
-		$lead=DB::select("call usp_get_leadcity_master()");
+		 $empcode=Session::get('empcode');
+			$assign=DB::select(DB::raw("exec usp_get_assing_empmaster :empcode"),[
+			':empcode' => $empcode,
+		]);
+		// $assign=DB::select("call usp_get_assing_empmaster()");
+		 $smsdata=DB::select("exec usp_get_product_master");
+		$lead=DB::select("exec usp_get_leadcity_master");
 		return view('associate-master',['smsdata'=>$smsdata,'lead'=>$lead,'assign'=>$assign])->with('no', 1);
+		//return view('associate-master');
 	}
 	public function associate_master(Request $req)
 	{
