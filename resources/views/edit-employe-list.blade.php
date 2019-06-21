@@ -166,7 +166,7 @@
                         <label for="u_reporting_authority" class="col-sm-4 col-form-label">Reporting&nbsp;Authority:</label>
                         <div class="col-sm-6">
                           <select type="text" class="form-control" id="u_reporting_authority" name="u_reporting_authority" value="{{ $user[0]->Reporting_emp}}">
-                    
+                     <option value="{{$user[0]->Reporting_emp}}">{{ $user[0]->Reporting_name}}</option>
                       @foreach ($updates as $updates)
                        <option value="{{$updates->emp_code}}">{{$updates->emp_name}}</option>
                      @endforeach
