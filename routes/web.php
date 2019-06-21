@@ -238,5 +238,31 @@ Route::get('/menu-list','MenuController@menulist');
 Route::post('/menu-list-form','MenuController@menu_list');
 Route::get('/menu-group','MenuController@menugroup');
 
+/*lead Capture*/
+Route::get('lead-lead-capture','LeadsController@leadleadcapture');
+Route::get('lead-lead-capture/{id}','LeadsController@leadleadc_apture');
+Route::post('lead-lead-capture-add','LeadsController@getaddress');
+Route::POST('lead-lead-capture-insert','LeadsController@lead_lead_capture');
+
+Route::get('priority-manage-leads','LeadsController@prioritymanageleads');
+Route::get('PB-payout-master','LeadsController@pbpayoutmaster');
+Route::get('push-sms-entry','LeadsController@pushsmsentry');  
+
+Route::get('lead-status-update-flow/{id}','LeadsController@leadstatusupdateflow');
+Route::get('lead-status-update-flow/{id}','LeadsController@leadstatusupdateflow');
+
+Route::get('lead-assign-telecaller','LeadsController@leadassigntelecaller');
+
+
+
+/*VIVEK*/
+
 Route::get('get-count-value/{id}','AssignTaskController@getcountvalue');
+Route::get('/dashboard-report','DashboardReportController@dashboard_report');
+Route::post('/dashboard-report-get','DashboardReportController@dashboard_rep_get');
+
+
+
+
+
 });

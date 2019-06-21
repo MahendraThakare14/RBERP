@@ -2,7 +2,7 @@
     <div class="pull-right hidden-xs">
       <b>Disclaimer</b>|Privacy Policy
     </div>
-    <strong> Copyright 2017 &copy; RupeeBoss 
+    <strong> Copyright 2019 &copy; RupeeBoss 
   </footer>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
