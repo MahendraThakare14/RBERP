@@ -12,9 +12,6 @@
           changeYear: true,
     
         });
-
-
-
     
 </script>
 
@@ -81,6 +78,22 @@
        }
      }
      </script>
+
+     <script type="text/javascript">
+    var d = new Date();
+    var year = d.getFullYear();
+    d.setFullYear(year);
+    $(".datepicker_id").datepicker({ dateFormat: "dd/mm/yy",
+      changeMonth: true,
+      changeYear: true,
+      maxDate: year,
+      minDate: "-100Y",
+     yearRange: '100:' + year + '',
+    //  yearRange: "c-5:c+50", // last hundred years and future hundred years
+      //yearRange : 'c-65:c+10'
+      defaultDate: d
+    });
+</script>
      
                       
 
