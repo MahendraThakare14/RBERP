@@ -99,10 +99,6 @@ Route::get('bank_contact_details-new','bank_contact_detailsController@bankdetail
 
 
 
-Route::get('lead_sub_status/{id}','LeadsController@loadsubstatus');
-
-
-
 
 });
 
@@ -254,6 +250,7 @@ Route::get('push-sms-entry','LeadsController@pushsmsentry');
 
 Route::get('manage-lead-data/{id}','LeadsController@leadstatusupdateflow');
 
+Route::get('lead_sub_status/{id}','LeadsController@lead_sub_status');
 
 
 

@@ -176,20 +176,7 @@
               </div>
 
 
-            <div class="col-md-6">
-               <div class="form-group row">
-               <label for="demo_given" class="col-sm-4 col-form-label">Demo Given:</label>
-               <div class="col-sm-6">
-                 @if($user[0]->demo_given != 0)
-                <label >Is Demo Given?<input type="checkbox"  id="demo_given" name="demo_given" value="1" style="zoom:1.5;" checked="true">
-                  @else
-                  <input type="checkbox"  id="demo_given" name="demo_given" value="0" style="zoom:1.5;">
-                    @endif
-                </label>
-                </div>
-              </div>
-            </div>
-
+        
 
             
 
@@ -210,7 +197,7 @@
             <div class="col-md-6">
               <div class="form-group row">
                 <label for="empname" class="col-sm-4 col-form-label">Is Share:</label>
-                <div class="col-sm-6">
+              
                   @if($user[0]->is_share==1)
                   <label for="one">Yes</label>
                   <input type="radio" id="one" name="Is_share" value="1" checked="checked" />
@@ -222,31 +209,23 @@
                    <label for="two">No</label>
                    <input type="radio" id="one" name="Is_share" value="2" checked="checked"/>                 
                   @endif
-                </div>
+           
               </div>
             </div>
+  <div class="col-md-6">
+               <div class="form-group row">
+                 <label for="sharePercent" class="col-sm-4 col-form-label">Share(%):</label>
+                 <div class="col-sm-6">
+                   <input type="text" class="form-control" id="sharePercent" name="sharePercent" value="{{$user[0]->sharepercent}}">
+                 </div>
+               </div>
+             </div>
 
 
 
 
-            <div class="col-md-6">
-              <div class="form-group row">
-                <label for="empname" class="col-sm-4 col-form-label">Call Type:</label>
-                <div class="col-sm-6">
-                  @if($user[0]->lead_source_type==1)
-                  <label for="one">300DATA</label>
-                  <input type="radio" id="one" name="Call_type" value="300DATA" checked="checked" />
-                  <label for="two">SME Visit</label>
-                   <input type="radio" id="one" name="Call_type" value="SME"/> 
-                   @else
-                  <label for="one">300DATA</label>
-                   <input type="radio" id="one" name="Call_type" value="300DATA"/>
-                   <label for="two">SME Visit</label>
-                   <input type="radio" id="one" name="Call_type" value="SME" checked="checked"/>                  
-                  @endif
-                </div>
-              </div>
-            </div>
+
+         
 
 
  
@@ -261,22 +240,64 @@
             </div>
 
 
-            <div class="col-md-6">
-               <div class="form-group row">
-                 <label for="sharePercent" class="col-sm-4 col-form-label">Share(%):</label>
-                 <div class="col-sm-6">
-                   <input type="text" class="form-control" id="sharePercent" name="sharePercent" value="{{$user[0]->sharepercent}}">
-                 </div>
-               </div>
-             </div>
-
-
+          
              <div class="col-md-6">
                <div class="form-group row">
                <label for="FollowTime" class="col-sm-4 col-form-label">Follow Time:</label>
                <div class="col-sm-6">
                  <select type="text" class="form-control" id="FollowTime" name="FollowTime" value="{{$user[0]->FollowTime}}">
                     <option>Select One</option>
+                   
+     
+      <option value="9:00 AM">9:00 AM</option>
+      <option value="9:15 AM">9:15 AM</option>
+      <option value="9:30 AM">9:30 AM</option>
+      <option value="9:45 AM">9:45 AM</option>
+      <option value="10:00 AM">10:00 AM</option>
+      <option value="10:15 AM">10:15 AM</option>
+      <option value="10:30 AM">10:30 AM</option>
+      <option value="10:45 AM">10:45 AM</option>
+      <option value="11:00 AM">11:00 AM</option>
+      <option value="11:15 AM">11:15 AM</option>
+      <option value="11:30 AM">11:30 AM</option>
+      <option value="11:45 AM">11:45 AM</option>
+      <option value="12:00 PM">12:00 PM</option>
+      <option value="12:15 PM">12:15 PM</option>
+      <option value="12:30 PM">12:30 PM</option>
+      <option value="12:45 PM">12:45 PM</option>
+      <option value="1:00 PM">1:00 PM</option>
+      <option value="1:15 PM">1:15 PM</option>
+      <option value="1:30 PM">1:30 PM</option>
+      <option value="1:45 PM">1:45 PM</option>
+      <option value="2:00 PM">2:00 PM</option>
+      <option value="2:15 PM">2:15 PM</option>
+      <option value="2:30 PM">2:30 PM</option>
+      <option value="2:45 PM">2:45 PM</option>
+      <option value="3:00 PM">3:00 PM</option>
+      <option value="3:15 PM">3:15 PM</option>
+      <option value="3:30 PM">3:30 PM</option>
+      <option value="3:45 PM">3:45 PM</option>
+      <option value="4:00 PM">4:00 PM</option>
+      <option value="4:15 PM">4:15 PM</option>
+      <option value="4:30 PM">4:30 PM</option>
+      <option value="4:45 PM">4:45 PM</option>
+      <option value="5:00 PM">5:00 PM</option>
+      <option value="5:15 PM">5:15 PM</option>
+      <option value="5:30 PM">5:30 PM</option>
+      <option value="5:45 PM">5:45 PM</option>
+      <option value="6:00 PM">6:00 PM</option>
+      <option value="6:15 PM">6:15 PM</option>
+      <option value="6:30 PM">6:30 PM</option>
+      <option value="6:45 PM">6:45 PM</option>
+      <option value="7:00 PM">7:00 PM</option>
+      <option value="7:15 PM">7:15 PM</option>
+      <option value="7:30 PM">7:30 PM</option>
+      <option value="7:45 PM">7:45 PM</option>
+      <option value="8:00 PM">8:00 PM</option>
+      <option value="8:15 PM">8:15 PM</option>
+      <option value="8:30 PM">8:30 PM</option>
+      <option value="8:45 PM">8:45 PM</option>
+
                  </select>
                 </div>
               </div>
@@ -332,19 +353,72 @@
 
             
 
-
-            <div class="col-md-6">
-               <div class="form-group row">
-               <label for="broker_id" class="col-sm-4 col-form-label">Broker Name:</label>
-               <div class="col-sm-6">
-               
+<div class="col-md-6">
+              <div class="form-group row">
+                <label for="empname" class="col-sm-4 col-form-label">Associate Type:</label>
+                <div class="col-sm-6">
+                  <div class="form-control">
+              
+                  @if($user[0]->is_share==1)
+                  <label for="one">Yes</label>
+                  <input type="radio" id="one" name="Is_share" value="1" checked="checked" />
+                  <label for="two">No</label>
+                   <input type="radio" id="one" name="Is_share" value="2"/> 
+                   @else
+                  <label for="one">Yes</label>
+                   <input type="radio" id="one" name="Is_share" value="1"/>
+                   <label for="two">No</label>
+                   <input type="radio" id="one" name="Is_share" value="2" checked="checked"/>                 
+                  @endif
                 </div>
               </div>
+           
+              </div>
             </div>
+            
+            <div class="col-md-6">
+               <div class="form-group row">
+                 <label for="Business_M" class="col-sm-4 col-form-label">Broker Name:</label>
+                 <div class="col-sm-6">
+                   <select type="text" class="form-control" id="Business_M" name="Business_M">
+                    <option disabled selected value="0">Select One</option>
+                    @foreach($manager as $val)                
+                   
+
+                    <option value="{{$val->emp_code}}">{{$val->Emp_Name}}</option>
+                   
+                    @endforeach
+                 </select>
+                 </div>   
+               </div>
+             </div>
+              
+             <div class="col-md-6">
+              <div class="form-group row">
+                <label for="empname" class="col-sm-4 col-form-label">Emp Type:</label>
 
 
-
-
+                 <div class="col-sm-6">
+              
+                  @if($user[0]->is_share==1)
+                  <div class="form-control">
+                  <label for="one">Yes</label>
+                  <input type="radio" id="one" name="Is_share" value="1" checked="checked" />
+                  <label for="two">No</label>
+                   <input type="radio" id="one" name="Is_share" value="2"/> 
+                   </div>
+                   @else
+                   <div class="form-control">
+                  <label for="one">Yes</label>
+                   <input type="radio" id="one" name="Is_share" value="1"/>
+                   <label for="two">No</label>
+                   <input type="radio" id="one" name="Is_share" value="2" checked="checked"/>
+                   </div>                 
+                  @endif
+           
+              </div>
+            </div>
+          </div>
 <!-- no update --> <div class="col-md-6">
                <div class="form-group row">
                  <label for="Business_M" class="col-sm-4 col-form-label">Business Manager:</label>
@@ -361,6 +435,8 @@
                  </div>   
                </div>
              </div>
+
+
 
 
             <div class="col-md-6">
@@ -410,7 +486,20 @@
              </div>
 
 
-         
+             <div class="col-md-6">
+               <div class="form-group row">
+               <label for="demo_given" class="col-sm-4 col-form-label">Demo Given:</label>
+            
+                 @if($user[0]->demo_given != 0)
+                <label >Is Demo Given?<input type="checkbox"  id="demo_given" name="demo_given" value="1" style="zoom:1.5;" checked="true">
+                  @else
+                  <input type="checkbox"  id="demo_given" name="demo_given" value="0" style="zoom:1.5;">
+                    @endif
+                </label>
+       
+              </div>
+            </div>
+
 
 
              <div class="col-md-6">
@@ -538,24 +627,27 @@
 
 <script type="text/javascript">
   $(function(){
-   $('#Lead_Status_id').onchange(function() {
+   $('#Lead_Status_id').change(function() {
     var id = $('#Lead_Status_id').val();
 
-
+      // alert(id);
         $.ajax({
-         url: 'lead_sub_status'+id,
+         url: "{{url('lead_sub_status')}}/"+id,
           type: 'GET',
           data: "",
           success: function(response)
           {
 
-            alert(response);
+            
+
            var d = JSON.parse(response);
            $('#Lead').empty();
            for(var i=0;i<d.length;i++)
            {
             $('#Lead').append("<option value="+d[i].lead_Status_id+">"+d[i].Lead_Status+"</option>");
           }
+
+
         }
       });
       });
