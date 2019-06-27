@@ -175,13 +175,6 @@
                 </div>
               </div>
 
-
-        
-
-            
-
-
-
             <div class="col-md-6">
                <div class="form-group row">
                  <label for="Lead" class="col-sm-4 col-form-label">Sub Lead Status*:</label>
@@ -197,6 +190,8 @@
             <div class="col-md-6">
               <div class="form-group row">
                 <label for="empname" class="col-sm-4 col-form-label">Is Share:</label>
+                   <div class="col-sm-6">
+                  <div class="form-control">
               
                   @if($user[0]->is_share==1)
                   <label for="one">Yes</label>
@@ -209,9 +204,13 @@
                    <label for="two">No</label>
                    <input type="radio" id="one" name="Is_share" value="2" checked="checked"/>                 
                   @endif
-           
+             </div>
+              </div>
               </div>
             </div>
+
+
+
   <div class="col-md-6">
                <div class="form-group row">
                  <label for="sharePercent" class="col-sm-4 col-form-label">Share(%):</label>
@@ -220,17 +219,7 @@
                  </div>
                </div>
              </div>
-
-
-
-
-
-         
-
-
- 
-
-            <div class="col-md-6">
+      <div class="col-md-6">
                <div class="form-group row">
                <label for="ndate" class="col-sm-4 col-form-label">FollowUp Date:</label>
                <div class="col-sm-6">
@@ -304,23 +293,6 @@
             </div>
 
 
-          <!--   <div class="col-md-6">
-               <div class="form-group row">
-                 <label for="Call_type" class="col-sm-4 col-form-label">Call Type:</label>
-                 <div class="col-sm-6">
-                   <select type="text" class="form-control" id="Call_type" name="Call_type">
-                    <option selected disabled value="0">select</option>
-                    <option value="1">Calling</option>
-                    <option value="2">Field Visit</option>
-                   </select>
-                 </div>
-               </div>
-             </div>
-
- -->
-
-
-
 
 
              <div class="col-md-6">
@@ -355,20 +327,20 @@
 
 <div class="col-md-6">
               <div class="form-group row">
-                <label for="empname" class="col-sm-4 col-form-label">Associate Type:</label>
+                <label for="rba_type" class="col-sm-4 col-form-label">Associate Type:</label>
                 <div class="col-sm-6">
                   <div class="form-control">
               
-                  @if($user[0]->is_share==1)
-                  <label for="one">Yes</label>
-                  <input type="radio" id="one" name="Is_share" value="1" checked="checked" />
-                  <label for="two">No</label>
-                   <input type="radio" id="one" name="Is_share" value="2"/> 
+                  @if($user[0]->rba_type=='RBA')
+                  <label for="RBA">RBA</label>
+                  <input type="radio" id="rba_type" name="associate_type" class="associate" value="RBA" checked="checked" />
+                  <label for="FBA">FBA</label>
+                   <input type="radio" id="fba_type" name="associate_type" class="associate"  value="FBA"/> 
                    @else
-                  <label for="one">Yes</label>
-                   <input type="radio" id="one" name="Is_share" value="1"/>
-                   <label for="two">No</label>
-                   <input type="radio" id="one" name="Is_share" value="2" checked="checked"/>                 
+                  <label for="RBA">RBA</label>
+                   <input type="radio" id="rba_type" name="associate_type" class="associate"  value="RBA"/>
+                   <label for="FBA">FBA</label>
+                   <input type="radio" id="fba_type" name="associate_type" value="FBA" class="associate"  checked="checked"/>                 
                   @endif
                 </div>
               </div>
@@ -378,16 +350,13 @@
             
             <div class="col-md-6">
                <div class="form-group row">
-                 <label for="Business_M" class="col-sm-4 col-form-label">Broker Name:</label>
+                 <label for="Broker_name" class="col-sm-4 col-form-label">Broker Name:</label>
                  <div class="col-sm-6">
-                   <select type="text" class="form-control" id="Business_M" name="Business_M">
+                   <select type="text" class="form-control" id="Broker_name" name="Broker_name">
                     <option disabled selected value="0">Select One</option>
-                    @foreach($manager as $val)                
-                   
-
-                    <option value="{{$val->emp_code}}">{{$val->Emp_Name}}</option>
-                   
-                    @endforeach
+                    @foreach($rdata as $val)
+                   <option value="{{$val->Broker_id}}">{{$val->Broker_Name}} </option>
+                   @endforeach 
                  </select>
                  </div>   
                </div>
@@ -399,64 +368,37 @@
 
 
                  <div class="col-sm-6">
-              
-                  @if($user[0]->is_share==1)
                   <div class="form-control">
-                  <label for="one">Yes</label>
-                  <input type="radio" id="one" name="Is_share" value="1" checked="checked" />
-                  <label for="two">No</label>
-                   <input type="radio" id="one" name="Is_share" value="2"/> 
+                  <label for="Internal">Internal</label>
+                  <input type="radio" id="Internal" name="Internal" value="Internal" class="emp_type" checked="checked" />
+                  <label for="Other">Other</label>
+                   <input type="radio" id="Other" name="Internal" value="Other" class="emp_type"/> 
                    </div>
-                   @else
-                   <div class="form-control">
-                  <label for="one">Yes</label>
-                   <input type="radio" id="one" name="Is_share" value="1"/>
-                   <label for="two">No</label>
-                   <input type="radio" id="one" name="Is_share" value="2" checked="checked"/>
-                   </div>                 
-                  @endif
+                 
            
               </div>
             </div>
           </div>
-<!-- no update --> <div class="col-md-6">
-               <div class="form-group row">
-                 <label for="Business_M" class="col-sm-4 col-form-label">Business Manager:</label>
-                 <div class="col-sm-6">
-                   <select type="text" class="form-control" id="Business_M" name="Business_M">
-                    <option disabled selected value="0">Select One</option>
-                    @foreach($manager as $val)                
-                   
-
-                    <option value="{{$val->emp_code}}">{{$val->Emp_Name}}</option>
-                   
-                    @endforeach
-                 </select>
-                 </div>   
-               </div>
-             </div>
-
-
-
 
             <div class="col-md-6">
              <div class="form-group row">
                   <label for="emp_code" class="col-sm-4 col-form-label">Assign To*:</label>
                   <div class="col-sm-6">
-                     <select type="text" class="form-control" id="Relationship_M" name="Relationship_M">
+                     <select type="text" class="form-control" id="emp" name="emp">
                  <option disabled selected value="0">Select One</option>
-                  <!-- <option value="{{$user[0]->emp_code}}">{{$user[0]->emp_code}}</option> -->
-                  @foreach($assign as $assign)
+           
+                  @foreach($empdata as $val)
 
-                <!-- <option value="{{$assign->emp_code}}">{{$assign->name}}</option> -->
-                 
-<option value="{{$assign->emp_code}}" {{$user[0]->emp_code == $assign->emp_code  ? 'selected' : ''}}>{{$assign->name}}</option>
+<option value="{{$val->emp_code}}" {{$user[0]->emp_code == $val->emp_code  ? 'selected' : ''}}>{{$val->name}}</option>
 
                   @endforeach
                 </select>
                   </div>
                 </div>
-              </div>
+              </div>    
+
+
+
 
 
 <!-- no update --> <div class="col-md-6">
@@ -500,6 +442,17 @@
               </div>
             </div>
 
+ <div class="col-md-6">
+               <div class="form-group row">
+               <label for="Business_M" class="col-sm-4 col-form-label">Business Manager:</label>
+               <div class="col-sm-6">
+                 <select type="text" class="form-control" id="Business_M" name="Business_M">
+                 <option disabled selected value="0">Select One</option>
+               
+                </select>
+              </div>
+            </div>
+          </div>
 
 
              <div class="col-md-6">
@@ -514,11 +467,13 @@
  <!-- no update --> <div class="col-md-12">
                <div class="form-group row">
                  <label for="dbm" class="col-sm-2 col-form-label">Disbursed Document :</label>
+                   <input type="file" name="Document1" id="Document1">
                 <!--  <div class="col-sm-6">
                    <input type="text" class="form-control search_Emp_Name" id="dbm" name="dbm" value="">
                  </div> -->
                </div>
              </div>
+
 
 
 
@@ -654,6 +609,82 @@
  });    
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+   $('.associate').change(function() {
+
+     if ($("input[name='associate_type']:checked").val() == 'RBA') {
+                 var id ='RBA'
+
+                 }
+            if ($("input[name='associate_type']:checked").val() == 'FBA') {
+              var id ='FBA'
+            }
+   // var id = $('.associate').val();
+
+          var Lead_id= $("#Lead_id").val();
+     //alert(Lead_id);
+        $.ajax({
+         url: "{{url('rba_load_status')}}/"+id + '/' + Lead_id,
+          type: 'GET',
+          data: "",
+          success: function(response)
+          {
+
+            
+
+           var d = JSON.parse(response);
+           $('#Broker_name').empty();
+           for(var i=0;i<d.length;i++)
+           {
+            $('#Broker_name').append("<option value="+d[i].Broker_id+">"+d[i].Broker_Name+"</option>");
+          }
+
+
+        }
+      });
+      });
+ });    
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+   $('.emp_type').change(function() {
+
+     if ($("input[name='Internal']:checked").val() == 'Internal') {
+                 var id ='Internal'
+
+                 }
+            if ($("input[name='Internal']:checked").val() == 'Other') {
+              var id ='Other'
+            }
+   // var id = $('.associate').val();
+
+          var Lead_id= $("#Lead_id").val();
+    // alert(id);
+        $.ajax({
+         url: "{{url('emp_load_status')}}/"+id + '/' + Lead_id,
+          type: 'GET',
+          data: "",
+          success: function(response)
+          {
+
+            
+
+           var d = JSON.parse(response);
+           $('#emp').empty();
+           for(var i=0;i<d.length;i++)
+           {
+            $('#emp').append("<option value="+d[i].emp_code+">"+d[i].name+"</option>");
+          }
+
+
+        }
+      });
+      });
+ });    
+</script>
 
 
 @endsection

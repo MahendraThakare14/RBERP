@@ -252,6 +252,9 @@ Route::get('manage-lead-data/{id}','LeadsController@leadstatusupdateflow');
 
 Route::get('lead_sub_status/{id}','LeadsController@lead_sub_status');
 
+Route::get('rba_load_status/{id}/{Lead_id}/','LeadsController@load_rba');
+Route::get('emp_load_status/{id}/{Lead_id}/','LeadsController@load_emp');
+
 
 
 // Route::get('manage-lead-data/{id}','LeadsController@leadstatusupdateflow');

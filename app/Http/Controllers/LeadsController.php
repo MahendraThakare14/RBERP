@@ -206,7 +206,17 @@ class LeadsController extends Controller
         $manager=DB::select("exec UspDispBMRMList");
         $rmanager=DB::select("exec UspDispBMRMList");
         $product=DB::select("exec Get_Product");
-        return view('manage-lead-data',['city'=>$city,'source'=>$source,'bank'=>$bank,'user'=>$user,'mlstatus'=>$mlstatus,'manager'=>$manager,'rmanager'=>$rmanager,'product'=>$product,'assign'=>$assign]);
+ $empcode=Session::get('empcode');
+
+     $rdata=DB::select(DB::raw("exec Usp_load_broker_Type :empcode,:Broker_Type,:lead_id"),[':empcode' =>$empcode,':Broker_Type' =>'RBA',':lead_id' =>"1463828"]);
+
+
+
+
+     $empdata=DB::select(DB::raw("exec USP_Load_EMP_Name_Sharing_L :Loginempcode,:emptype,:lead_id"),[':Loginempcode' =>$empcode,':emptype' =>'Internal',':lead_id' =>"1463828"]);
+      
+
+        return view('manage-lead-data',['city'=>$city,'source'=>$source,'bank'=>$bank,'user'=>$user,'mlstatus'=>$mlstatus,'manager'=>$manager,'rmanager'=>$rmanager,'product'=>$product,'assign'=>$assign,'rdata'=>$rdata,'empdata'=>$empdata]);
     }
      public function lead_sub_status($id)
     {
@@ -216,6 +226,25 @@ class LeadsController extends Controller
  $ldata=DB::select(DB::raw("exec Usp_Sub_lead_status_fill :Lead_Status_Id"),[':Lead_Status_Id' =>$id]);
       
     return json_encode($ldata);
+
+    }
+
+     public function load_rba($id,$Lead_id)
+    {
+         $empcode=Session::get('empcode');
+
+     $rdata=DB::select(DB::raw("exec Usp_load_broker_Type :empcode,:Broker_Type,:lead_id"),[':empcode' =>$empcode,':Broker_Type' =>$id,':lead_id' =>$Lead_id]);
+      
+    return json_encode($rdata);
+
+    }
+       public function load_emp($id,$Lead_id)
+    {
+         $empcode=Session::get('empcode');
+
+     $empdata=DB::select(DB::raw("exec USP_Load_EMP_Name_Sharing_L :Loginempcode,:emptype,:lead_id"),[':Loginempcode' =>$empcode,':emptype' =>$id,':lead_id' =>$Lead_id]);
+     // print_r($empdata);exit();
+    return json_encode($empdata);
 
     }
  
