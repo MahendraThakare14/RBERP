@@ -208,13 +208,17 @@ class LeadsController extends Controller
         $product=DB::select("exec Get_Product");
         return view('manage-lead-data',['city'=>$city,'source'=>$source,'bank'=>$bank,'user'=>$user,'mlstatus'=>$mlstatus,'manager'=>$manager,'rmanager'=>$rmanager,'product'=>$product,'assign'=>$assign]);
     }
-     public function loadsubstatus($id)
-    {
 
-       $ldata=DB::select(DB::raw("exec Usp_Sub_lead_status_fill:Lead_Status_Id"),[
-    ':Lead_Status_Id' => $id
+
+    
+     public function loadsubstatus($id){
+
+        $ldata=DB::select(DB::raw("exec Usp_Sub_lead_status_fill:@Lead_Status_Id"),[
+    ':@Lead_Status_Id' =>$id,
      ]);
-    // print_r($ldata); exit();
+  
+   print_r($ldata); exit();
+
     return json_encode($ldata);
 
     }
