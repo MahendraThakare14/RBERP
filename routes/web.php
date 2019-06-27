@@ -96,12 +96,6 @@ Route::get('bank-contact-details','MastersController@bankcontactdetails');
 Route::POST('bank-contact-details','MastersController@bank_contact_details');
 
 Route::get('bank_contact_details-new','bank_contact_detailsController@bankdetails');
-
-
-
-
-
-
 });
 
 
@@ -256,6 +250,10 @@ Route::get('/manage-lead-data/{id}','LeadsController@leadstatusupdateflow');
 
 Route::get('/lead_sub_status/{id}','LeadsController@loadsubstatus');
 
+Route::get('lead_sub_status/{id}','LeadsController@lead_sub_status');
+
+Route::get('rba_load_status/{id}/{Lead_id}/','LeadsController@load_rba');
+Route::get('emp_load_status/{id}/{Lead_id}/','LeadsController@load_emp');
 
 
 
@@ -272,9 +270,5 @@ Route::get('lead-assign-telecaller','LeadsController@leadassigntelecaller');
 Route::get('get-count-value/{id}','AssignTaskController@getcountvalue');
 Route::get('/dashboard-report','DashboardReportController@dashboard_report');
 Route::post('/dashboard-report-get','DashboardReportController@dashboard_rep_get');
-
-
-
-
 
 });
